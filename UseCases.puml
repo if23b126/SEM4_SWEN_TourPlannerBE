@@ -1,0 +1,60 @@
+@startuml
+actor User
+
+participant "REST API" as API
+database "Datenbank\n(MySQL, MongoDB,\nPostgreSQL)" as DB
+
+== Neue Route erstellen ==
+
+User -> API : { \n\tname, \n\tdescriptionfrom, \n\tto, \n\ttransport, \n\tdistance, \n\ttime, \n\tinformation \n}
+API -> DB : JDBC
+
+
+== Tabellen Aller Touren ==
+
+User -> API : GET /routes
+API -> DB : JDBC
+DB -> API : JDBC
+API -> User :{ \n\t[\n\t\t{name, from, to}, \n\t\t...\n\t] \n}
+
+== Tour für Details auswählen ==
+
+User -> API : Tourname
+API -> DB : JDBC
+DB -> API : JDBC
+API -> User : { \n\tname, \n\t[comments] \n}
+
+== Kommentar erstellen ==
+
+User -> API : {\n\tname,\n\tdate/time,\n\tcomment,\n\tdifficulty,\n\tdistance,\n\ttraveltime,\n\trating \n}
+API -> DB : JDBC
+
+== Full Text Search ==
+
+User -> API : zu suchender Text
+API -> DB : JDBC
+DB -> API : JDBC
+API -> User : Treffer
+
+
+== Export von Routen ==
+
+User -> API : Routen auswäheln
+API -> DB : JDBC
+DB -> API : JDBC
+API -> User : File
+
+== Import von Routen ==
+
+User -> API : File auswäheln
+API -> DB : JDBC
+
+
+== Report erstellen ==
+
+User -> API : Reportart
+API -> DB : JDBC
+DB -> API : JDBC
+API -> User : Report
+
+@enduml
