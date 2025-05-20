@@ -39,4 +39,6 @@ public class TourEntity {
     private Date timeEnd;
     @Column(name = "TOUR_information")
     private String information;
+    @Column(name = "TOUR_timecreated")
+    private Date timeCreated;
 }

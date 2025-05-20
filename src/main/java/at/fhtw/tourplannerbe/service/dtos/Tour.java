@@ -20,4 +20,6 @@ public class Tour {
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:SS")
     private Date timeEnd;
     private String information;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:SS")
+    private Date timeCreated;
 }
