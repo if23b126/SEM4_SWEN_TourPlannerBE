@@ -16,6 +16,7 @@ public class TourController {
 
     private final TourServiceImpl tourService;
 
+    @CrossOrigin
     @GetMapping
     public List<Tour> getAllTours() {
         log.info("Get all tours");
