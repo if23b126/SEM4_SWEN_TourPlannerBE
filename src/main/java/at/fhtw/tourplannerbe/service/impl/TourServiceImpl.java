@@ -27,4 +27,8 @@ public class TourServiceImpl implements TourService {
     public void addTour(Tour tour) {
         tourRepository.save(tourMapper.toEntity(tour));
     }
+
+    public void updateTour(Tour tour) {
+
+    }
 }

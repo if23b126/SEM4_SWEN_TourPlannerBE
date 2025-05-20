@@ -8,4 +8,5 @@ import java.util.List;
 public interface TourService {
     List<Tour> getTours();
     void addTour(@RequestBody Tour tour);
+    void updateTour(@RequestBody Tour tour);
 }
