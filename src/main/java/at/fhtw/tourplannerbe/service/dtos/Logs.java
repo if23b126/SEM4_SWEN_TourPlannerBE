@@ -8,19 +8,18 @@ import java.util.Date;
 
 @Data
 @Builder
-public class Tour {
+public class Logs {
     private Long id;
-    private String name;
-    private String description;
-    private String start;
-    private String end;
-    private String transportMode;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:SS")
+    private Date time;
+    private String comment;
+    private double difficulty;
     private double distance;
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:SS")
     private Date timeStart;
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:SS")
     private Date timeEnd;
-    private String information;
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:SS")
-    private Date timeCreated;
+    private double rating;
+    private Long tourid;
+
 }

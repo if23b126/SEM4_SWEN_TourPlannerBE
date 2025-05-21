@@ -9,4 +9,5 @@ public interface TourService {
     List<Tour> getTours();
     void addTour(@RequestBody Tour tour);
     void updateTour(@RequestBody Tour tour);
+    void deleteTour(long id);
 }

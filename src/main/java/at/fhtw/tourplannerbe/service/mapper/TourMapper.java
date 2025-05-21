@@ -13,6 +13,7 @@ public class TourMapper extends AbstractMapper<TourEntity, Tour> {
     @Override
     public Tour toDto(TourEntity entity) {
         return Tour.builder()
+                .id(entity.getId())
                 .name(entity.getName())
                 .description(entity.getDescription())
                 .start(entity.getStart())
@@ -29,6 +30,7 @@ public class TourMapper extends AbstractMapper<TourEntity, Tour> {
     @Override
     public TourEntity toEntity(Tour dto) {
         return TourEntity.builder()
+                .id(dto.getId())
                 .name(dto.getName())
                 .description(dto.getDescription())
                 .start(dto.getStart())

@@ -29,4 +29,15 @@ public class TourController {
         tourService.addTour(tour);
     }
 
+    @PutMapping
+    public void updateTour(@RequestBody Tour tour) {
+        log.info("Update tour");
+        tourService.updateTour(tour);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteTour(@PathVariable long id) {
+        log.info("Delete tour");
+        tourService.deleteTour(id);
+    }
 }
