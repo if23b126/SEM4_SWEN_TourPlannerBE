@@ -1,5 +1,6 @@
 package at.fhtw.tourplannerbe.service;
 
+import at.fhtw.tourplannerbe.persitence.TourEntity;
 import at.fhtw.tourplannerbe.service.dtos.Tour;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -10,4 +11,6 @@ public interface TourService {
     void addTour(@RequestBody Tour tour);
     void updateTour(@RequestBody Tour tour);
     void deleteTour(long id);
+    List<TourEntity> getSearchTour(String name);
+
 }

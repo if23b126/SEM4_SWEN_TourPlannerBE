@@ -1,5 +1,6 @@
 package at.fhtw.tourplannerbe.service.impl;
 
+import at.fhtw.tourplannerbe.persitence.LogsEntity;
 import at.fhtw.tourplannerbe.persitence.TourEntity;
 import at.fhtw.tourplannerbe.persitence.TourRepository;
 import at.fhtw.tourplannerbe.service.TourService;
@@ -50,5 +51,9 @@ public class TourServiceImpl implements TourService {
 
     public void deleteTour(long id) {
         tourRepository.deleteById(id);
+    }
+
+    public List<TourEntity> getSearchTour(String name){
+        return tourRepository.searchTour(name);
     }
 }

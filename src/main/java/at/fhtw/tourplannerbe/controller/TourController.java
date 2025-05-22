@@ -1,5 +1,7 @@
 package at.fhtw.tourplannerbe.controller;
 
+import at.fhtw.tourplannerbe.persitence.LogsEntity;
+import at.fhtw.tourplannerbe.persitence.TourEntity;
 import at.fhtw.tourplannerbe.service.dtos.Tour;
 import at.fhtw.tourplannerbe.service.impl.TourServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ public class TourController {
         return tourService.getTours();
     }
 
+    @CrossOrigin
     @PostMapping
     public void saveTour(@RequestBody Tour tour) {
         log.info("Save tour");
@@ -39,5 +42,11 @@ public class TourController {
     public void deleteTour(@PathVariable long id) {
         log.info("Delete tour");
         tourService.deleteTour(id);
+    }
+
+    @GetMapping("/search/{name}")
+    public List<TourEntity> searchTour(@PathVariable String name) {
+        log.info("Searching tour from database");
+        return tourService.getSearchTour(name);
     }
 }
