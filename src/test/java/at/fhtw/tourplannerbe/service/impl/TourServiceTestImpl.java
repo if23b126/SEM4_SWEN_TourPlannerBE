@@ -8,12 +8,14 @@ import at.fhtw.tourplannerbe.service.mapper.TourMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Sql(scripts = "/tourTest.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 public class TourServiceTestImpl {
 
     @Autowired
@@ -32,6 +34,7 @@ public class TourServiceTestImpl {
         assertEquals(tourEntity.getEnd(), "test");
         assertEquals(tourEntity.getTransportMode(), "test");
         assertEquals(tourEntity.getDistance(), 3);
+        System.out.println(tours);
         assertEquals(tourEntity.getTimeStart(), "2025-05-22 08:35:00.000");
         assertEquals(tourEntity.getTimeEnd(), "2025-05-22 10:35:00.000");
         assertEquals(tourEntity.getInformation(), "test");
