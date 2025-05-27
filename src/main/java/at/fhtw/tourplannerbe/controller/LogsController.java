@@ -3,6 +3,7 @@ package at.fhtw.tourplannerbe.controller;
 import at.fhtw.tourplannerbe.persitence.LogsEntity;
 import at.fhtw.tourplannerbe.service.LogsService;
 import at.fhtw.tourplannerbe.service.dtos.Logs;
+import at.fhtw.tourplannerbe.service.dtos.Tour;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.repository.Query;
@@ -38,8 +39,14 @@ public class LogsController {
     }
 
     @GetMapping("/search/{comment}")
-    public List<LogsEntity> searchLogs(@PathVariable String comment) {
+    public List<Logs> searchLogs(@PathVariable String comment) {
         log.info("Searching logs from database");
         return logsService.getSearchLogs(comment);
+    }
+
+    @GetMapping("/{tourid}")
+    public List<Logs> getLogs(@PathVariable long tourid) {
+        log.info("Getting logs for tour from database");
+        return logsService.getLogsForTour(Tour.builder().id(tourid).build());
     }
 }

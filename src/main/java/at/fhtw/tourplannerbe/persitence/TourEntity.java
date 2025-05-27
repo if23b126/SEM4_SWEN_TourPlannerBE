@@ -19,7 +19,10 @@ import java.util.Date;
 
 public class TourEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tour_seq")
+    @SequenceGenerator(name = "tour_seq", sequenceName = "tour_seq", allocationSize = 1)
     private Long id;
     @Column(name = "TOUR_name")
     private String name;

@@ -1,9 +1,10 @@
 
 DROP ALL OBJECTS;
 CREATE SCHEMA IF NOT EXISTS public;
+CREATE SEQUENCE TOUR_SEQ START WITH 2 INCREMENT BY 1;
 
 CREATE TABLE public.tour (
-    id float AUTO_INCREMENT,
+    id float AUTO_INCREMENT NOT NULL,
     tour_name varchar(255) NULL,
     tour_description varchar(255) NULL,
     tour_start varchar(255) NULL,
@@ -16,4 +17,4 @@ CREATE TABLE public.tour (
     tour_timecreated timestamp DEFAULT CURRENT_TIMESTAMP NULL
 );
 
-INSERT INTO public.tour (id, tour_name, tour_description, tour_start, tour_end, tour_transportmode, tour_distance, tour_timestart, tour_timeend, tour_information) VALUES (1, 'test','test','test','test','test',3,'2025-05-22 08:35:00.000','2025-05-22 10:35:00.000','test');
+INSERT INTO public.tour ( id, tour_name, tour_description, tour_start, tour_end, tour_transportmode, tour_distance, tour_timestart, tour_timeend, tour_information) VALUES ( 1, 'test','test','test','test','test',3,'2025-05-22 08:35:00.000','2025-05-22 10:35:00.000','test');

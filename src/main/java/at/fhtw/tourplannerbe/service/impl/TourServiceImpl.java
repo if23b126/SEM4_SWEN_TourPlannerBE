@@ -27,7 +27,7 @@ public class TourServiceImpl implements TourService {
 
     @Override
     public void addTour(Tour tour) {
-        tourRepository.save(tourMapper.toEntity(tour));
+        tourRepository.saveAndFlush(tourMapper.toEntity(tour));
     }
 
     @Override

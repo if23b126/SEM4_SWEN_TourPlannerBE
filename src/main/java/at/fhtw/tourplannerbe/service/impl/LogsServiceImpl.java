@@ -6,6 +6,7 @@ import at.fhtw.tourplannerbe.persitence.TourEntity;
 import at.fhtw.tourplannerbe.persitence.TourRepository;
 import at.fhtw.tourplannerbe.service.LogsService;
 import at.fhtw.tourplannerbe.service.dtos.Logs;
+import at.fhtw.tourplannerbe.service.dtos.Tour;
 import at.fhtw.tourplannerbe.service.mapper.LogsMapper;
 import at.fhtw.tourplannerbe.service.mapper.TourMapper;
 import lombok.RequiredArgsConstructor;
@@ -24,16 +25,16 @@ public class LogsServiceImpl implements LogsService {
     private final TourMapper tourMapper;
 
     @Override
-    public TourEntity checkIfTourExists(long id){
+    public Tour checkIfTourExists(long id){
         TourEntity tourEntity = tourRepository.findById(id).orElse(null);
-        return tourEntity;
+        return tourEntity != null ? tourMapper.toDto(tourEntity) : null;
     }
 
     @Override
     public void addLogs(Logs logs){
         LogsEntity toAddLogs = logsMapper.toEntity(logs);
-        TourEntity tourEntity = checkIfTourExists(toAddLogs.getTourid());
-        if(tourEntity != null){
+        Tour tour = checkIfTourExists(toAddLogs.getTourid());
+        if(tour != null){
             logsRepository.save(toAddLogs);
         }
     }
@@ -57,11 +58,17 @@ public class LogsServiceImpl implements LogsService {
     }
 
     @Override
+    public List<Logs> getLogsForTour(Tour tour) {
+        List<Logs> logs = logsMapper.toDto(logsRepository.searchLogsForTour(tour.getId()));
+        return logs;
+    }
+
+    @Override
     public void deleteLogs(long id){
         logsRepository.deleteById(id);
     }
 
-    public List<LogsEntity> getSearchLogs(String comment){
-       return logsRepository.searchLogs(comment);
+    public List<Logs> getSearchLogs(String comment){
+       return logsMapper.toDto(logsRepository.searchLogs(comment));
     }
 }
