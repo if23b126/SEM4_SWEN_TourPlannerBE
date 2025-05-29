@@ -31,11 +31,13 @@ public class LogServiceImpl implements LogService {
     public void addLogs(Log log){
         LogEntity toAddLogs = logsMapper.toEntity(log);
         Tour tour = tourService.checkIfTourExists(toAddLogs.getTourid());
+        logRepository.save(toAddLogs);
+
         if(tour != null){
             List<Log> allLogs = getLogsForTour(tour);
             tourService.createTourPopularity(toAddLogs.getTourid(), allLogs);
             tourService.createTourChildfriendlinessWithLogs(tour, allLogs);
-            logRepository.save(toAddLogs);
+            //logRepository.save(toAddLogs);
         }
     }
 
@@ -65,7 +67,6 @@ public class LogServiceImpl implements LogService {
 
             Tour tour = tourService.checkIfTourExists(log.getTourid());
             if(tour != null){
-                System.out.println(tour);
                 List<Log> allLogs = getLogsForTour(tour);
                 tourService.createTourPopularity(log.getTourid(), allLogs);
                 tourService.createTourChildfriendlinessWithLogs(tour, allLogs);
@@ -84,7 +85,15 @@ public class LogServiceImpl implements LogService {
     public void deleteLogs(long id){
         LogEntity log = logRepository.findById(id).orElse(null);
         TourEntity tour = tourRepository.findById(log.getTourid()).orElse(null);
+        List<Log> logs = getLogsForTour(tourMapper.toDto(tour));
+            System.out.println("logs:    " + logs);
+        logs.removeIf(l -> l.getId() == log.getId());
         logRepository.deleteById(id);
+            System.out.println("logs:    " + logs);
+        if(logs.size() > 0){
+            tourService.createTourPopularity(log.getTourid(), logs);
+            tourService.createTourChildfriendlinessWithLogs(tourMapper.toDto(tour), logs);
+        }
     }
 
     public List<Log> getSearchLogs(String comment){
