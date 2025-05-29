@@ -6,5 +6,6 @@ import java.io.File;
 import java.io.IOException;
 
 public interface ReportService {
-    ResponseEntity<byte[]> createReport(Long id) throws IOException;
+    ResponseEntity<byte[]> createTourReport(Long id) throws IOException;
+    ResponseEntity<byte[]> createSummarizeReport() throws IOException;
 }
