@@ -18,9 +18,16 @@ public class ReportController {
     private final ReportService reportService;
 
     @CrossOrigin
-    @GetMapping("/{id}")
-    public ResponseEntity<byte[]> getReport(@PathVariable long id) throws IOException {
-        log.info("Getting report");
-        return reportService.createReport(id);
+    @GetMapping("/tour/{id}")
+    public ResponseEntity<byte[]> getTourReport(@PathVariable long id) throws IOException {
+        log.info("Getting tour report");
+        return reportService.createTourReport(id);
+    }
+
+    @CrossOrigin
+    @GetMapping("summary")
+    public ResponseEntity<byte[]> getSummarizeReport() throws IOException {
+        log.info("Getting summarize report");
+        return reportService.createSummarizeReport();
     }
 }
