@@ -12,5 +12,6 @@ public interface TourService {
     void updateTour(@RequestBody Tour tour);
     void deleteTour(long id);
     List<TourEntity> getSearchTour(String name);
-
+    //Tour getTourById(long id);
+    Tour checkIfTourExists(long id);
 }

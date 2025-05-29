@@ -2,6 +2,7 @@ package at.fhtw.tourplannerbe.service.impl;
 
 import at.fhtw.tourplannerbe.persitence.TourEntity;
 import at.fhtw.tourplannerbe.service.LogsService;
+import at.fhtw.tourplannerbe.service.TourService;
 import at.fhtw.tourplannerbe.service.dtos.Logs;
 import at.fhtw.tourplannerbe.service.dtos.Tour;
 import at.fhtw.tourplannerbe.service.mapper.LogsMapper;
@@ -23,6 +24,8 @@ public class LogsServiceTestImpl {
     private LogsService logsService;
     @Autowired
     private LogsMapper logsMapper;
+    @Autowired
+    private TourService tourService;
 
     @Test
     @Sql(scripts = "/logsTest.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
@@ -128,7 +131,7 @@ public class LogsServiceTestImpl {
     @Test
     @Sql(scripts = "/logsTest.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void checkIfTourExistsTrueTest() {
-        Tour tour = logsService.checkIfTourExists(1L);
+        Tour tour = tourService.checkIfTourExists(1L);
 
         assertNotNull(tour);
     }
@@ -136,7 +139,7 @@ public class LogsServiceTestImpl {
     @Test
     @Sql(scripts = "/logsTest.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void checkIfTourExistsFalseTest() {
-        Tour tour = logsService.checkIfTourExists(2L);
+        Tour tour = tourService.checkIfTourExists(2L);
 
         assertNull(tour);
     }
