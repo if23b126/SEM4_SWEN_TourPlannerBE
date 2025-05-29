@@ -49,6 +49,18 @@ public class TourServiceImpl implements TourService {
         }
     }
 
+    @Override
+    public Tour checkIfTourExists(long id){
+        TourEntity tourEntity = tourRepository.findById(id).orElse(null);
+        return tourEntity != null ? tourMapper.toDto(tourEntity) : null;
+    }
+
+//    @Override
+//    public Tour getTourById(long id) {
+//        TourEntity tourEntity = tourRepository.findById(id).orElse(null);
+//
+//    }
+
     public void deleteTour(long id) {
         tourRepository.deleteById(id);
     }

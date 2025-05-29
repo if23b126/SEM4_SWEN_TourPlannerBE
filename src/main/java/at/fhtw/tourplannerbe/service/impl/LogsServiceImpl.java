@@ -5,6 +5,7 @@ import at.fhtw.tourplannerbe.persitence.LogsRepository;
 import at.fhtw.tourplannerbe.persitence.TourEntity;
 import at.fhtw.tourplannerbe.persitence.TourRepository;
 import at.fhtw.tourplannerbe.service.LogsService;
+import at.fhtw.tourplannerbe.service.TourService;
 import at.fhtw.tourplannerbe.service.dtos.Logs;
 import at.fhtw.tourplannerbe.service.dtos.Tour;
 import at.fhtw.tourplannerbe.service.mapper.LogsMapper;
@@ -23,17 +24,12 @@ public class LogsServiceImpl implements LogsService {
     private final LogsMapper logsMapper;
     private final TourRepository tourRepository;
     private final TourMapper tourMapper;
-
-    @Override
-    public Tour checkIfTourExists(long id){
-        TourEntity tourEntity = tourRepository.findById(id).orElse(null);
-        return tourEntity != null ? tourMapper.toDto(tourEntity) : null;
-    }
+    private final TourService tourService;
 
     @Override
     public void addLogs(Logs logs){
         LogsEntity toAddLogs = logsMapper.toEntity(logs);
-        Tour tour = checkIfTourExists(toAddLogs.getTourid());
+        Tour tour = tourService.checkIfTourExists(toAddLogs.getTourid());
         if(tour != null){
             logsRepository.save(toAddLogs);
         }

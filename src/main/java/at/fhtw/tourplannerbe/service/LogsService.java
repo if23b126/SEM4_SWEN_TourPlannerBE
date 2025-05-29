@@ -15,6 +15,5 @@ public interface LogsService {
     void updateLogs(@RequestBody Logs logs);
     void deleteLogs(long id);
     List<Logs> getLogsForTour(Tour tour);
-    Tour checkIfTourExists(long id);
     List<Logs> getSearchLogs(String comment);
 }
