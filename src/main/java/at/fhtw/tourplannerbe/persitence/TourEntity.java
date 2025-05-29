@@ -46,4 +46,6 @@ public class TourEntity {
     private Date timeCreated;
     @Column(name = "TOUR_popularity")
     private double popularity;
+    @Column(name = "TOUR_childfriendliness")
+    private double childfriendliness;
 }

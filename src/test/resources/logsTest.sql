@@ -14,6 +14,8 @@ CREATE TABLE public.tour (
      tour_timeend timestamp(6) NULL,
      tour_timestart timestamp(6) NULL,
      tour_transportmode varchar(255) NULL,
+     tour_popularity float8  DEFAULT 0 NULL,
+     tour_childfriendliness float8  DEFAULT 0 NULL,
      CONSTRAINT tour_pkey PRIMARY KEY (id)
 );
 

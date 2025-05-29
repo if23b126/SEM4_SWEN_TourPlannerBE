@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -31,8 +32,12 @@ public class LogsServiceImpl implements LogsService {
         LogsEntity toAddLogs = logsMapper.toEntity(logs);
         Tour tour = tourService.checkIfTourExists(toAddLogs.getTourid());
         if(tour != null){
+            List<Logs> allLogs = getLogsForTour(tour);
+            tourService.createTourPopularity(toAddLogs.getTourid(), allLogs);
+            tourService.createTourChildfriendlinessWithLogs(tour, allLogs);
             logsRepository.save(toAddLogs);
         }
+
     }
 
     @Override
@@ -49,6 +54,14 @@ public class LogsServiceImpl implements LogsService {
             log.setTimeEnd(toFindLogs.getTimeEnd() == null ? log.getTimeEnd() : toFindLogs.getTimeEnd());
             log.setRating(toFindLogs.getRating() < 0 ? log.getRating() : toFindLogs.getRating());
             log.setTourid(toFindLogs.getTourid() < 0 ? log.getTourid() : toFindLogs.getTourid());
+
+            Tour tour = tourService.checkIfTourExists(log.getTourid());
+            if(tour != null){
+                System.out.println(tour);
+                List<Logs> allLogs = getLogsForTour(tour);
+                tourService.createTourPopularity(log.getTourid(), allLogs);
+                tourService.createTourChildfriendlinessWithLogs(tour, allLogs);
+            }
             logsRepository.save(log);
         }
     }
@@ -61,6 +74,8 @@ public class LogsServiceImpl implements LogsService {
 
     @Override
     public void deleteLogs(long id){
+        LogsEntity log = logsRepository.findById(id).orElse(null);
+        TourEntity tour = tourRepository.findById(log.getTourid()).orElse(null);
         logsRepository.deleteById(id);
     }
 
