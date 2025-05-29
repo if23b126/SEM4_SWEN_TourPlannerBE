@@ -206,6 +206,8 @@ public class TourServiceTestImpl {
         assertEquals(tourEntity.getTimeStart().toString(), "2025-05-22 08:35:00.0");
         assertEquals(tourEntity.getTimeEnd().toString(), "2025-05-22 10:35:00.0");
         assertEquals(tourEntity.getInformation(), "test");
+        assertEquals(tourEntity.getPopularity(), 0);
+        assertEquals(tourEntity.getChildfriendliness(), 0);
     }
 
     @Test
@@ -229,6 +231,8 @@ public class TourServiceTestImpl {
         assertEquals(tourEntity.getTimeStart().toString(), "2025-05-22 08:35:00.0");
         assertEquals(tourEntity.getTimeEnd().toString(), "2025-05-22 10:35:00.0");
         assertEquals(tourEntity.getInformation(), "test");
+        assertEquals(tourEntity.getPopularity(), 0);
+        assertEquals(tourEntity.getChildfriendliness(), 0);
     }
 
     @Test
@@ -260,6 +264,8 @@ public class TourServiceTestImpl {
         assertEquals(tourEntity.getTimeStart().toString(), "2025-05-22 08:35:00.0");
         assertEquals(tourEntity.getTimeEnd().toString(), "2025-05-22 10:35:00.0");
         assertEquals(tourEntity.getInformation(), "test");
+        assertEquals(tourEntity.getPopularity(), 0);
+        assertEquals(tourEntity.getChildfriendliness(), 0);
     }
 
     @Test
@@ -309,6 +315,8 @@ public class TourServiceTestImpl {
         assertEquals(secondTour.getTimeStart().toString(), "2025-05-22 08:35:00.0");
         assertEquals(secondTour.getTimeEnd().toString(), "2025-05-22 10:35:00.0");
         assertEquals(secondTour.getInformation(), "information");
+        assertEquals(secondTour.getPopularity(), 0);
+        assertEquals(secondTour.getChildfriendliness(), 0);
 
         assertEquals(tours.size(), 1);
 
@@ -329,7 +337,6 @@ public class TourServiceTestImpl {
     @Sql(scripts = "/logsTest.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void checkIfTourExistsFalseTest() {
         Tour tour = tourService.checkIfTourExists(2L);
-
         assertNull(tour);
     }
 }

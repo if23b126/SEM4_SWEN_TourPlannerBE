@@ -41,6 +41,8 @@ public class LogServiceTestImpl {
         assertEquals("2025-05-22 08:35:00.0", logs.get(0).getTimeStart().toString());
         assertEquals("2025-05-22 10:35:00.0", logs.get(0).getTimeEnd().toString());
         assertEquals(1, logs.get(0).getTourid());
+        assertEquals(0, tour.getPopularity());
+        assertEquals(0, tour.getChildfriendliness());
     }
 
     @Test
@@ -78,6 +80,73 @@ public class LogServiceTestImpl {
         assertEquals("2025-05-22 08:35:00.0", logs.get(1).getTimeStart().toString());
         assertEquals("2025-05-22 10:35:00.0", logs.get(1).getTimeEnd().toString());
         assertEquals(1, logs.get(1).getTourid());
+
+        Tour tour = tourService.getTours().get(0);
+        assertEquals(0, tour.getPopularity());
+        assertEquals(3, tour.getChildfriendliness());
+    }
+
+
+    @Test
+    @Sql(scripts = "/logsTest.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    public void addTwoLogTest() throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+        String timeString = "2025-05-22 12:35:00.0";
+        Date time = formatter.parse(timeString);
+        String timeStartString = "2025-05-22 08:35:00.0";
+        Date timeStart = formatter.parse(timeStartString);
+        String timeEndString = "2025-05-22 10:35:00.0";
+        Date timeEnd = formatter.parse(timeEndString);
+        Log log = Log.builder()
+                .comment("test")
+                .difficulty(2)
+                .distance(2)
+                .rating(2)
+                .time(time)
+                .timeStart(timeStart)
+                .timeEnd(timeEnd)
+                .tourid(1L)
+                .build();
+
+        logService.addLogs(log);
+
+        List<Log> logs = logService.getLogsForTour(Tour.builder().id(1L).build());
+
+        assertEquals(2, logs.size());
+        assertEquals(2L, logs.get(1).getId());
+        assertEquals("test", logs.get(1).getComment());
+        assertEquals(2, logs.get(1).getDifficulty());
+        assertEquals(2, logs.get(1).getDistance());
+        assertEquals(2, logs.get(1).getRating());
+        assertEquals("2025-05-22 12:35:00.0", logs.get(1).getTime().toString());
+        assertEquals("2025-05-22 08:35:00.0", logs.get(1).getTimeStart().toString());
+        assertEquals("2025-05-22 10:35:00.0", logs.get(1).getTimeEnd().toString());
+        assertEquals(1, logs.get(1).getTourid());
+
+        Tour tour = tourService.getTours().get(0);
+        assertEquals(2.5, tour.getPopularity());
+        assertEquals(3, tour.getChildfriendliness());
+
+        Log logTwo = Log.builder()
+                .comment("test")
+                .difficulty(5)
+                .distance(20)
+                .rating(5)
+                .time(time)
+                .timeStart(timeStart)
+                .timeEnd(timeEnd)
+                .tourid(1L)
+                .build();
+        logService.addLogs(logTwo);
+
+        logs = logService.getLogsForTour(Tour.builder().id(1L).build());
+
+        assertEquals(3, logs.size());
+        Tour tourNew = tourService.getTourById(1L);;
+        assertEquals(2.5, tourNew.getPopularity());
+        assertEquals(3, tourNew.getChildfriendliness());
+
+
     }
 
     @Test
@@ -114,6 +183,11 @@ public class LogServiceTestImpl {
         assertEquals("2025-05-22 08:35:00.0", logs.get(0).getTimeStart().toString());
         assertEquals("2025-05-22 10:35:00.0", logs.get(0).getTimeEnd().toString());
         assertEquals(1, logs.get(0).getTourid());
+
+        Tour tourNew = tourService.getTourById(1L);;
+        System.out.println(tourNew.getPopularity());
+        assertEquals(3, tourNew.getPopularity());
+        assertEquals(3, tourNew.getChildfriendliness());
     }
 
     @Test
