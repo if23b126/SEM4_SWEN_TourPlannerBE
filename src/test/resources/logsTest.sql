@@ -17,7 +17,7 @@ CREATE TABLE public.tour (
      CONSTRAINT tour_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE public.log (
+CREATE TABLE public.logs (
      id float NOT NULL,
      logs_comment varchar(255) NULL,
      logs_difficulty float NULL,
@@ -31,4 +31,4 @@ CREATE TABLE public.log (
 );
 
 INSERT INTO public.tour (id, tour_name, tour_description, tour_start, tour_end, tour_transportmode, tour_distance, tour_timestart, tour_timeend, tour_information) VALUES (1, 'test','test','test','test','test',3,'2025-05-22 08:35:00.000','2025-05-22 10:35:00.000','test');
-INSERT INTO public.log (id, logs_comment, logs_difficulty, logs_distance, logs_rating, logs_time, logs_timestart, logs_timeend, logs_tourid) VALUES(1, 'test', 1, 2, 3, '2025-05-22 12:35:00.000', '2025-05-22 08:35:00.000', '2025-05-22 10:35:00.000', 1);
+INSERT INTO public.logs (id, logs_comment, logs_difficulty, logs_distance, logs_rating, logs_time, logs_timestart, logs_timeend, logs_tourid) VALUES(1, 'test', 1, 2, 3, '2025-05-22 12:35:00.000', '2025-05-22 08:35:00.000', '2025-05-22 10:35:00.000', 1);
