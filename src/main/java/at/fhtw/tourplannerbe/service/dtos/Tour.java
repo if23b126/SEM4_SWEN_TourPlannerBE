@@ -23,4 +23,6 @@ public class Tour {
     private String information;
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:SS")
     private Date timeCreated;
+    private double popularity;
+    private double childfriendliness;
 }

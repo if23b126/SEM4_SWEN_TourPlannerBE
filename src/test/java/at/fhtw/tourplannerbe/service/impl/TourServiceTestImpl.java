@@ -42,6 +42,8 @@ public class TourServiceTestImpl {
         assertEquals(tourEntity.getTimeStart().toString(), "2025-05-22 08:35:00.0");
         assertEquals(tourEntity.getTimeEnd().toString(), "2025-05-22 10:35:00.0");
         assertEquals(tourEntity.getInformation(), "test");
+        assertEquals(tourEntity.getPopularity(), 0);
+        assertEquals(tourEntity.getChildfriendliness(), 0);
     }
 
     @Test
@@ -81,6 +83,8 @@ public class TourServiceTestImpl {
         assertEquals(tourEntity.getTimeStart().toString(), "2025-05-22 08:35:00.0");
         assertEquals(tourEntity.getTimeEnd().toString(), "2025-05-22 10:35:00.0");
         assertEquals(tourEntity.getInformation(), "information");
+        assertEquals(tourEntity.getPopularity(), 0);
+        assertEquals(tourEntity.getChildfriendliness(), 0);
     }
 
 
@@ -125,6 +129,8 @@ public class TourServiceTestImpl {
         assertEquals(tourEntity.getTimeStart().toString(), "2025-05-22 08:35:00.0");
         assertEquals(tourEntity.getTimeEnd().toString(), "2025-05-22 10:35:00.0");
         assertEquals(tourEntity.getInformation(), "test");
+        assertEquals(tourEntity.getPopularity(), 0);
+        assertEquals(tourEntity.getChildfriendliness(), 0);
 
 
         TourEntity secondTour = tourMapper.toEntity(tours.get(1));
@@ -138,6 +144,8 @@ public class TourServiceTestImpl {
         assertEquals(secondTour.getTimeStart().toString(), "2025-05-22 08:35:00.0");
         assertEquals(secondTour.getTimeEnd().toString(), "2025-05-22 10:35:00.0");
         assertEquals(secondTour.getInformation(), "information");
+        assertEquals(secondTour.getPopularity(), 0);
+        assertEquals(secondTour.getChildfriendliness(), 0);
     }
 
     @Test
@@ -176,6 +184,9 @@ public class TourServiceTestImpl {
         assertEquals(tourEntity.getTimeStart().toString(), "2025-05-22 18:35:00.0");
         assertEquals(tourEntity.getTimeEnd().toString(), "2025-05-22 20:35:00.0");
         assertEquals(tourEntity.getInformation(), "information");
+        assertEquals(tourEntity.getPopularity(), 0);
+        assertEquals(tourEntity.getChildfriendliness(), 0);
+
     }
 
     @Test

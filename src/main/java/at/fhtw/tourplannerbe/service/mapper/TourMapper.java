@@ -24,6 +24,8 @@ public class TourMapper extends AbstractMapper<TourEntity, Tour> {
                 .timeEnd(entity.getTimeEnd())
                 .information(entity.getInformation())
                 .timeCreated(entity.getTimeCreated())
+                .popularity(entity.getPopularity())
+                .childfriendliness(entity.getChildfriendliness())
                 .build();
     }
 
@@ -41,6 +43,8 @@ public class TourMapper extends AbstractMapper<TourEntity, Tour> {
                 .timeEnd(dto.getTimeEnd())
                 .information(dto.getInformation())
                 .timeCreated(dto.getTimeCreated())
+                .popularity(dto.getPopularity())
+                .childfriendliness(dto.getChildfriendliness())
                 .build();
     }
 }

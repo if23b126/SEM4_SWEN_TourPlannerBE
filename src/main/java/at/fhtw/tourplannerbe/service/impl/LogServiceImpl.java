@@ -2,6 +2,7 @@ package at.fhtw.tourplannerbe.service.impl;
 
 import at.fhtw.tourplannerbe.persitence.LogEntity;
 import at.fhtw.tourplannerbe.persitence.LogRepository;
+import at.fhtw.tourplannerbe.persitence.TourEntity;
 import at.fhtw.tourplannerbe.persitence.TourRepository;
 import at.fhtw.tourplannerbe.service.LogService;
 import at.fhtw.tourplannerbe.service.TourService;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -30,6 +32,9 @@ public class LogServiceImpl implements LogService {
         LogEntity toAddLogs = logsMapper.toEntity(log);
         Tour tour = tourService.checkIfTourExists(toAddLogs.getTourid());
         if(tour != null){
+            List<Log> allLogs = getLogsForTour(tour);
+            tourService.createTourPopularity(toAddLogs.getTourid(), allLogs);
+            tourService.createTourChildfriendlinessWithLogs(tour, allLogs);
             logRepository.save(toAddLogs);
         }
     }
@@ -57,6 +62,14 @@ public class LogServiceImpl implements LogService {
             log.setTimeEnd(toFindLogs.getTimeEnd() == null ? log.getTimeEnd() : toFindLogs.getTimeEnd());
             log.setRating(toFindLogs.getRating() < 0 ? log.getRating() : toFindLogs.getRating());
             log.setTourid(toFindLogs.getTourid() < 0 ? log.getTourid() : toFindLogs.getTourid());
+
+            Tour tour = tourService.checkIfTourExists(log.getTourid());
+            if(tour != null){
+                System.out.println(tour);
+                List<Log> allLogs = getLogsForTour(tour);
+                tourService.createTourPopularity(log.getTourid(), allLogs);
+                tourService.createTourChildfriendlinessWithLogs(tour, allLogs);
+            }
             logRepository.save(log);
         }
     }
@@ -69,6 +82,8 @@ public class LogServiceImpl implements LogService {
 
     @Override
     public void deleteLogs(long id){
+        LogEntity log = logRepository.findById(id).orElse(null);
+        TourEntity tour = tourRepository.findById(log.getTourid()).orElse(null);
         logRepository.deleteById(id);
     }
 
