@@ -8,10 +8,10 @@ import java.util.List;
 
 public interface TourService {
     List<Tour> getTours();
-    void addTour(@RequestBody Tour tour);
+    Tour addTour(@RequestBody Tour tour);
     void updateTour(@RequestBody Tour tour);
     void deleteTour(long id);
     List<TourEntity> getSearchTour(String name);
-    //Tour getTourById(long id);
+    Tour getTourById(long id);
     Tour checkIfTourExists(long id);
 }

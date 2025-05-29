@@ -1,6 +1,5 @@
 package at.fhtw.tourplannerbe.service.impl;
 
-import at.fhtw.tourplannerbe.persitence.LogsEntity;
 import at.fhtw.tourplannerbe.persitence.TourEntity;
 import at.fhtw.tourplannerbe.persitence.TourRepository;
 import at.fhtw.tourplannerbe.service.TourService;
@@ -26,8 +25,9 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
-    public void addTour(Tour tour) {
-        tourRepository.saveAndFlush(tourMapper.toEntity(tour));
+    public Tour addTour(Tour tour) {
+        TourEntity tourEntity = tourRepository.save(tourMapper.toEntity(tour));
+        return tourMapper.toDto(tourEntity);
     }
 
     @Override
@@ -55,11 +55,10 @@ public class TourServiceImpl implements TourService {
         return tourEntity != null ? tourMapper.toDto(tourEntity) : null;
     }
 
-//    @Override
-//    public Tour getTourById(long id) {
-//        TourEntity tourEntity = tourRepository.findById(id).orElse(null);
-//
-//    }
+    @Override
+    public Tour getTourById(long id) {
+        return checkIfTourExists(id);
+    }
 
     public void deleteTour(long id) {
         tourRepository.deleteById(id);

@@ -1,17 +1,17 @@
 package at.fhtw.tourplannerbe.service.mapper;
 
-import at.fhtw.tourplannerbe.persitence.LogsEntity;
-import at.fhtw.tourplannerbe.service.dtos.Logs;
+import at.fhtw.tourplannerbe.persitence.LogEntity;
+import at.fhtw.tourplannerbe.service.dtos.Log;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class LogsMapper extends AbstractMapper<LogsEntity, Logs> {
+public class LogsMapper extends AbstractMapper<LogEntity, Log> {
 
     @Override
-    public Logs toDto(LogsEntity entity){
-        return Logs.builder()
+    public Log toDto(LogEntity entity){
+        return Log.builder()
                 .id(entity.getId())
                 .time(entity.getTime())
                 .comment(entity.getComment())
@@ -25,8 +25,8 @@ public class LogsMapper extends AbstractMapper<LogsEntity, Logs> {
     }
 
     @Override
-    public LogsEntity toEntity(Logs dto){
-        return LogsEntity.builder()
+    public LogEntity toEntity(Log dto){
+        return LogEntity.builder()
                 .id(dto.getId())
                 .time(dto.getTime())
                 .comment(dto.getComment())
