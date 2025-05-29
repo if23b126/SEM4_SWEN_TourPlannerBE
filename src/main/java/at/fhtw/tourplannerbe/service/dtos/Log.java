@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Data
 @Builder
-public class Logs {
+public class Log {
     private Long id;
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:SS")
     private Date time;

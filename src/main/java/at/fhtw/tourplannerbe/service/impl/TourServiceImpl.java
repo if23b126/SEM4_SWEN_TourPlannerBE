@@ -26,26 +26,21 @@ public class TourServiceImpl implements TourService {
     private final TourRepository tourRepository;
     private final TourMapper tourMapper;
 
-
     @Override
     public List<Tour> getTours() {
         return tourMapper.toDto(tourRepository.findAll());
     }
 
-
-
     @Override
-    public void addTour(Tour tour) {
-        //tour.setChildfriendliness(createTourChildfriendliness(tour));
-        tourRepository.saveAndFlush(tourMapper.toEntity(tour));
+    public Tour addTour(Tour tour) {
+        TourEntity tourEntity = tourRepository.save(tourMapper.toEntity(tour));
+        return tourMapper.toDto(tourEntity);
     }
 
     @Override
     public void updateTour(Tour tour) {
         TourEntity toFindTour = tourMapper.toEntity(tour);
-        System.out.println("toFindTour:     " + toFindTour);
         TourEntity tour1 = tourRepository.findById(toFindTour.getId()).orElse(null);
-        System.out.println("tour1:     " + tour1);
         if (tour1 != null) {
             tour1.setId(toFindTour.getId() == null ? tour1.getId() : toFindTour.getId());
             tour1.setName(toFindTour.getName() == null ? tour1.getName() : toFindTour.getName());
@@ -63,7 +58,6 @@ public class TourServiceImpl implements TourService {
 
             tourRepository.save(tour1);
         }
-
     }
 
     @Override
@@ -72,11 +66,10 @@ public class TourServiceImpl implements TourService {
         return tourEntity != null ? tourMapper.toDto(tourEntity) : null;
     }
 
-//    @Override
-//    public Tour getTourById(long id) {
-//        TourEntity tourEntity = tourRepository.findById(id).orElse(null);
-//
-//    }
+    @Override
+    public Tour getTourById(long id) {
+        return checkIfTourExists(id);
+    }
 
     public void deleteTour(long id) {
         tourRepository.deleteById(id);

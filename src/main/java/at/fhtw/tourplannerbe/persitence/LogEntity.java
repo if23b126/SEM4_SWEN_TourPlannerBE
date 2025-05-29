@@ -1,6 +1,5 @@
 package at.fhtw.tourplannerbe.persitence;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +14,7 @@ import java.util.Date;
 @Data
 @Builder
 @Table(name = "logs", schema = "public")
-public class LogsEntity {
+public class LogEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "log_seq")
     @SequenceGenerator(name = "log_seq", sequenceName = "log_seq", allocationSize = 1)

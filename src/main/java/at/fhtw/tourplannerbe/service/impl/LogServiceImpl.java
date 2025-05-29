@@ -1,12 +1,11 @@
 package at.fhtw.tourplannerbe.service.impl;
 
-import at.fhtw.tourplannerbe.persitence.LogsEntity;
-import at.fhtw.tourplannerbe.persitence.LogsRepository;
-import at.fhtw.tourplannerbe.persitence.TourEntity;
+import at.fhtw.tourplannerbe.persitence.LogEntity;
+import at.fhtw.tourplannerbe.persitence.LogRepository;
 import at.fhtw.tourplannerbe.persitence.TourRepository;
-import at.fhtw.tourplannerbe.service.LogsService;
+import at.fhtw.tourplannerbe.service.LogService;
 import at.fhtw.tourplannerbe.service.TourService;
-import at.fhtw.tourplannerbe.service.dtos.Logs;
+import at.fhtw.tourplannerbe.service.dtos.Log;
 import at.fhtw.tourplannerbe.service.dtos.Tour;
 import at.fhtw.tourplannerbe.service.mapper.LogsMapper;
 import at.fhtw.tourplannerbe.service.mapper.TourMapper;
@@ -20,30 +19,38 @@ import java.util.Optional;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class LogsServiceImpl implements LogsService {
-    private final LogsRepository logsRepository;
+public class LogServiceImpl implements LogService {
+    private final LogRepository logRepository;
     private final LogsMapper logsMapper;
     private final TourRepository tourRepository;
     private final TourMapper tourMapper;
     private final TourService tourService;
 
     @Override
-    public void addLogs(Logs logs){
-        LogsEntity toAddLogs = logsMapper.toEntity(logs);
+    public void addLogs(Log log){
+        LogEntity toAddLogs = logsMapper.toEntity(log);
         Tour tour = tourService.checkIfTourExists(toAddLogs.getTourid());
         if(tour != null){
-            List<Logs> allLogs = getLogsForTour(tour);
+            List<Logs> allLogs = getLogForTour(tour);
             tourService.createTourPopularity(toAddLogs.getTourid(), allLogs);
             tourService.createTourChildfriendlinessWithLogs(tour, allLogs);
-            logsRepository.save(toAddLogs);
+            logRepository.save(toAddLogs);
         }
-
     }
 
     @Override
-    public void updateLogs(Logs logs){
-        LogsEntity toFindLogs = logsMapper.toEntity(logs);
-        LogsEntity log = logsRepository.findById(toFindLogs.getId()).orElse(null);
+    public void addLogsInBulk(List<Log> logs) {
+        List<LogEntity> logsEntities = logsMapper.toEntity(logs);
+        Tour tour = tourService.checkIfTourExists(logsEntities.get(0).getTourid());
+        if(tour != null){
+            logRepository.saveAll(logsEntities);
+        }
+    }
+
+    @Override
+    public void updateLogs(Log logs){
+        LogEntity toFindLogs = logsMapper.toEntity(logs);
+        LogEntity log = logRepository.findById(toFindLogs.getId()).orElse(null);
         if(log != null){
             log.setId(toFindLogs.getId() == null ? log.getId() : toFindLogs.getId());
             log.setTime(toFindLogs.getTime() == null ? log.getTime() : toFindLogs.getTime());
@@ -58,28 +65,28 @@ public class LogsServiceImpl implements LogsService {
             Tour tour = tourService.checkIfTourExists(log.getTourid());
             if(tour != null){
                 System.out.println(tour);
-                List<Logs> allLogs = getLogsForTour(tour);
+                List<Log> allLogs = getLogsForTour(tour);
                 tourService.createTourPopularity(log.getTourid(), allLogs);
                 tourService.createTourChildfriendlinessWithLogs(tour, allLogs);
             }
-            logsRepository.save(log);
+            logRepository.save(log);
         }
     }
 
     @Override
-    public List<Logs> getLogsForTour(Tour tour) {
-        List<Logs> logs = logsMapper.toDto(logsRepository.searchLogsForTour(tour.getId()));
+    public List<Log> getLogsForTour(Tour tour) {
+        List<Log> logs = logsMapper.toDto(logRepository.searchLogsForTour(tour.getId()));
         return logs;
     }
 
     @Override
     public void deleteLogs(long id){
-        LogsEntity log = logsRepository.findById(id).orElse(null);
+        LogEntity log = logsRepository.findById(id).orElse(null);
         TourEntity tour = tourRepository.findById(log.getTourid()).orElse(null);
-        logsRepository.deleteById(id);
+        logRepository.deleteById(id);
     }
 
-    public List<Logs> getSearchLogs(String comment){
-       return logsMapper.toDto(logsRepository.searchLogs(comment));
+    public List<Log> getSearchLogs(String comment){
+       return logsMapper.toDto(logRepository.searchLogs(comment));
     }
 }

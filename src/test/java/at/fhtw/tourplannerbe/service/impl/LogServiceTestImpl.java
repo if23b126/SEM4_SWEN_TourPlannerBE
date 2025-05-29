@@ -1,12 +1,10 @@
 package at.fhtw.tourplannerbe.service.impl;
 
-import at.fhtw.tourplannerbe.persitence.TourEntity;
-import at.fhtw.tourplannerbe.service.LogsService;
+import at.fhtw.tourplannerbe.service.LogService;
 import at.fhtw.tourplannerbe.service.TourService;
-import at.fhtw.tourplannerbe.service.dtos.Logs;
+import at.fhtw.tourplannerbe.service.dtos.Log;
 import at.fhtw.tourplannerbe.service.dtos.Tour;
 import at.fhtw.tourplannerbe.service.mapper.LogsMapper;
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,9 +17,9 @@ import java.util.Date;
 import java.util.List;
 
 @SpringBootTest
-public class LogsServiceTestImpl {
+public class LogServiceTestImpl {
     @Autowired
-    private LogsService logsService;
+    private LogService logService;
     @Autowired
     private LogsMapper logsMapper;
     @Autowired
@@ -31,7 +29,7 @@ public class LogsServiceTestImpl {
     @Sql(scripts = "/logsTest.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void getAllLogsTest() {
         Tour tour = Tour.builder().id(1L).build();
-        List<Logs> logs = logsService.getLogsForTour(tour);
+        List<Log> logs = logService.getLogsForTour(tour);
 
         assertEquals(1, logs.size());
         assertEquals(1L, logs.get(0).getId());
@@ -55,7 +53,7 @@ public class LogsServiceTestImpl {
         Date timeStart = formatter.parse(timeStartString);
         String timeEndString = "2025-05-22 10:35:00.0";
         Date timeEnd = formatter.parse(timeEndString);
-        Logs log = Logs.builder()
+        Log log = Log.builder()
                 .comment("test")
                 .difficulty(2)
                 .distance(2)
@@ -66,9 +64,9 @@ public class LogsServiceTestImpl {
                 .tourid(1L)
                 .build();
 
-        logsService.addLogs(log);
+        logService.addLogs(log);
 
-        List<Logs> logs = logsService.getLogsForTour(Tour.builder().id(1L).build());
+        List<Log> logs = logService.getLogsForTour(Tour.builder().id(1L).build());
 
         assertEquals(2, logs.size());
         assertEquals(2L, logs.get(1).getId());
@@ -92,7 +90,7 @@ public class LogsServiceTestImpl {
         Date timeStart = formatter.parse(timeStartString);
         String timeEndString = "2025-05-22 10:35:00.0";
         Date timeEnd = formatter.parse(timeEndString);
-        Logs log = Logs.builder()
+        Log log = Log.builder()
                 .id(1L)
                 .comment("test")
                 .difficulty(2)
@@ -103,9 +101,9 @@ public class LogsServiceTestImpl {
                 .timeEnd(timeEnd)
                 .tourid(1L)
                 .build();
-        logsService.updateLogs(log);
+        logService.updateLogs(log);
 
-        List<Logs> logs = logsService.getLogsForTour(Tour.builder().id(1L).build());
+        List<Log> logs = logService.getLogsForTour(Tour.builder().id(1L).build());
         assertEquals(1, logs.size());
         assertEquals(1L, logs.get(0).getId());
         assertEquals("test", logs.get(0).getComment());
@@ -121,9 +119,9 @@ public class LogsServiceTestImpl {
     @Test
     @Sql(scripts = "/logsTest.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void deleteLogTest() {
-        logsService.deleteLogs(1L);
+        logService.deleteLogs(1L);
 
-        List<Logs> logs = logsService.getLogsForTour(Tour.builder().id(1L).build());
+        List<Log> logs = logService.getLogsForTour(Tour.builder().id(1L).build());
 
         assertEquals(0, logs.size());
     }

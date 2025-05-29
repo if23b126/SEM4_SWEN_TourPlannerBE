@@ -1,6 +1,5 @@
 package at.fhtw.tourplannerbe.controller;
 
-import at.fhtw.tourplannerbe.persitence.LogsEntity;
 import at.fhtw.tourplannerbe.persitence.TourEntity;
 import at.fhtw.tourplannerbe.service.dtos.Tour;
 import at.fhtw.tourplannerbe.service.impl.TourServiceImpl;

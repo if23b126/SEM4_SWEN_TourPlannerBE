@@ -17,4 +17,13 @@ public abstract class AbstractMapper<E, D> {
 
         return dtos;
     }
+
+    public List<E> toEntity(Collection<D> dtos){
+        List<E> entities = new ArrayList<>();
+        dtos.forEach(dto -> {
+            entities.add(toEntity(dto));
+        });
+
+        return entities;
+    }
 }
