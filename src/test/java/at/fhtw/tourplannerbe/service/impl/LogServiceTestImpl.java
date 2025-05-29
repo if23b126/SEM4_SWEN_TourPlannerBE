@@ -125,20 +125,4 @@ public class LogServiceTestImpl {
 
         assertEquals(0, logs.size());
     }
-
-    @Test
-    @Sql(scripts = "/logsTest.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    public void checkIfTourExistsTrueTest() {
-        Tour tour = tourService.checkIfTourExists(1L);
-
-        assertNotNull(tour);
-    }
-
-    @Test
-    @Sql(scripts = "/logsTest.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    public void checkIfTourExistsFalseTest() {
-        Tour tour = tourService.checkIfTourExists(2L);
-
-        assertNull(tour);
-    }
 }

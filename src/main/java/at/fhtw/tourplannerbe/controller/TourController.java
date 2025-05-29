@@ -1,6 +1,7 @@
 package at.fhtw.tourplannerbe.controller;
 
 import at.fhtw.tourplannerbe.persitence.TourEntity;
+import at.fhtw.tourplannerbe.service.TourService;
 import at.fhtw.tourplannerbe.service.dtos.Tour;
 import at.fhtw.tourplannerbe.service.impl.TourServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ import java.util.List;
 @Slf4j
 public class TourController {
 
-    private final TourServiceImpl tourService;
+    private final TourService tourService;
 
     @CrossOrigin
     @GetMapping
