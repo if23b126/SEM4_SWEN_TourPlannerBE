@@ -33,13 +33,13 @@ public class ReportServiceImpl implements ReportService {
 
     private final ExportService exportService;
     private final TourService tourService;
+    private final PDFont font = new PDType1Font(Standard14Fonts.FontName.COURIER);
 
     @Override
     public ResponseEntity<byte[]> createTourReport(Long id) throws IOException {
         TourImportExport tour = exportService.exportTour(id);
         Date diff = new Date(tour.getTour().getTimeEnd().getTime() - tour.getTour().getTimeStart().getTime());
 
-        PDFont font = new PDType1Font(Standard14Fonts.FontName.COURIER);
         float fontSize = 14;
         float headingSize = 38;
         float margin = 50;
@@ -91,7 +91,7 @@ public class ReportServiceImpl implements ReportService {
         totalHeight += fontHeight;
 
         contentStream.newLine();
-        contentStream.showText("Transportmode: " + tour.getTour().getTransportMode());
+        contentStream.showText("Transport Mode: " + tour.getTour().getTransportMode());
         totalHeight += fontHeight;
         totalHeight += fontHeight;
 
@@ -186,7 +186,6 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public ResponseEntity<byte[]> createSummarizeReport() throws IOException {
-        PDFont font = new PDType1Font(Standard14Fonts.FontName.COURIER);
         float fontSize = 14;
         float headingSize = 38;
         float margin = 50;
@@ -251,14 +250,14 @@ public class ReportServiceImpl implements ReportService {
             totalHeight += fontHeight;
 
             contentStream.newLine();
-            contentStream.showText("Average Time: " + ratingSum/logDivisor);
+            contentStream.showText("Average Rating: " + ratingSum/logDivisor);
             totalHeight += fontHeight;
             totalHeight += fontHeight;
 
             contentStream.newLine();
             contentStream.newLine();
 
-            if( (totalHeight + margin) >= a4Height) {
+            if( (totalHeight + margin) >= a4Height && (counter + 1) < tours.size()) {
                 contentStream.endText();
                 page = new PDPage();
                 document.addPage(page);
