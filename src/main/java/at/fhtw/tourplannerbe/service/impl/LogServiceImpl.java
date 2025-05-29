@@ -2,6 +2,7 @@ package at.fhtw.tourplannerbe.service.impl;
 
 import at.fhtw.tourplannerbe.persitence.LogEntity;
 import at.fhtw.tourplannerbe.persitence.LogRepository;
+import at.fhtw.tourplannerbe.persitence.TourEntity;
 import at.fhtw.tourplannerbe.persitence.TourRepository;
 import at.fhtw.tourplannerbe.service.LogService;
 import at.fhtw.tourplannerbe.service.TourService;
@@ -31,7 +32,7 @@ public class LogServiceImpl implements LogService {
         LogEntity toAddLogs = logsMapper.toEntity(log);
         Tour tour = tourService.checkIfTourExists(toAddLogs.getTourid());
         if(tour != null){
-            List<Logs> allLogs = getLogForTour(tour);
+            List<Log> allLogs = getLogsForTour(tour);
             tourService.createTourPopularity(toAddLogs.getTourid(), allLogs);
             tourService.createTourChildfriendlinessWithLogs(tour, allLogs);
             logRepository.save(toAddLogs);
@@ -81,7 +82,7 @@ public class LogServiceImpl implements LogService {
 
     @Override
     public void deleteLogs(long id){
-        LogEntity log = logsRepository.findById(id).orElse(null);
+        LogEntity log = logRepository.findById(id).orElse(null);
         TourEntity tour = tourRepository.findById(log.getTourid()).orElse(null);
         logRepository.deleteById(id);
     }

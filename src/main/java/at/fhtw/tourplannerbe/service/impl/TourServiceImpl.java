@@ -1,12 +1,12 @@
 package at.fhtw.tourplannerbe.service.impl;
 
-import at.fhtw.tourplannerbe.persitence.LogsEntity;
-import at.fhtw.tourplannerbe.persitence.LogsRepository;
+import at.fhtw.tourplannerbe.persitence.LogEntity;
+import at.fhtw.tourplannerbe.persitence.LogRepository;
 import at.fhtw.tourplannerbe.persitence.TourEntity;
 import at.fhtw.tourplannerbe.persitence.TourRepository;
-import at.fhtw.tourplannerbe.service.LogsService;
+import at.fhtw.tourplannerbe.service.LogService;
 import at.fhtw.tourplannerbe.service.TourService;
-import at.fhtw.tourplannerbe.service.dtos.Logs;
+import at.fhtw.tourplannerbe.service.dtos.Log;
 import at.fhtw.tourplannerbe.service.dtos.Tour;
 import at.fhtw.tourplannerbe.service.mapper.LogsMapper;
 import at.fhtw.tourplannerbe.service.mapper.TourMapper;
@@ -79,10 +79,10 @@ public class TourServiceImpl implements TourService {
         return tourRepository.searchTour(name);
     }
 
-    public void createTourPopularity(long id, List<Logs> logs) {
+    public void createTourPopularity(long id, List<Log> logs) {
         TourEntity tourEntity = tourRepository.findById(id).orElse(null);
         double rating = 0;
-        for (Logs log : logs) {
+        for (Log log : logs) {
             rating += log.getRating();
         }
         tourEntity.setPopularity(rating / logs.size());
@@ -139,7 +139,7 @@ public class TourServiceImpl implements TourService {
     }
 
 
-    public void createTourChildfriendlinessWithLogs(Tour tour, List<Logs> logs) {
+    public void createTourChildfriendlinessWithLogs(Tour tour, List<Log> logs) {
         double time = tour.getTimeEnd().getTime() - tour.getTimeStart().getTime();
         int timeRating = 0;
         if (time < 0.5) {
@@ -169,7 +169,7 @@ public class TourServiceImpl implements TourService {
 
         if (!logs.isEmpty()) {
             double difficultyRating = 0;
-            for (Logs log : logs) {
+            for (Log log : logs) {
                 difficultyRating += log.getDifficulty();
             }
 
