@@ -32,6 +32,7 @@ public class TourController {
         tourService.addTour(tour);
     }
 
+    @CrossOrigin
     @PutMapping
     public void updateTour(@RequestBody Tour tour) {
         log.info("Update tour");
