@@ -10,6 +10,7 @@ import at.fhtw.tourplannerbe.service.dtos.Log;
 import at.fhtw.tourplannerbe.service.dtos.Tour;
 import at.fhtw.tourplannerbe.service.mapper.LogsMapper;
 import at.fhtw.tourplannerbe.service.mapper.TourMapper;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,10 @@ public class TourServiceImpl implements TourService {
     @Override
     public void updateTour(Tour tour) {
         TourEntity toFindTour = tourMapper.toEntity(tour);
+        System.out.println("von toFindTour am anfang: " + toFindTour);
         TourEntity tour1 = tourRepository.findById(toFindTour.getId()).orElse(null);
+        System.out.println("von tour1 am anfang: " + tour1);
+
         if (tour1 != null) {
             tour1.setId(toFindTour.getId() == null ? tour1.getId() : toFindTour.getId());
             tour1.setName(toFindTour.getName() == null ? tour1.getName() : toFindTour.getName());
@@ -52,12 +56,14 @@ public class TourServiceImpl implements TourService {
             tour1.setTimeStart(toFindTour.getTimeStart() == null ? tour1.getTimeStart() : toFindTour.getTimeStart());
             tour1.setTimeEnd(toFindTour.getTimeEnd() == null ? tour1.getTimeEnd() : toFindTour.getTimeEnd());
             tour1.setInformation(toFindTour.getInformation() == null ? tour1.getInformation() : toFindTour.getInformation());
-            tour1.setPopularity(toFindTour.getPopularity() - tour1.getPopularity() != 0 ? tour1.getPopularity() : toFindTour.getPopularity());
+            //tour1.setPopularity(toFindTour.getPopularity() - tour1.getPopularity() != 0 ? tour1.getPopularity() : toFindTour.getPopularity());
             //tour1.setChildfriendliness(toFindTour.getChildfriendliness() <= 0 ? tour1.getChildfriendliness() : toFindTour.getChildfriendliness());
             //tour1.setPopularity(toFindTour.getPopularity() != tour1.getPopularity() && toFindTour.getPopularity() != 0 ? toFindTour.getPopularity() : tour1.getPopularity());
-            //tour1.setPopularity(( toFindTour.getPopularity() != tour1.getPopularity()) ? toFindTour.getPopularity() : tour1.getPopularity());
-            tour1.setChildfriendliness(toFindTour.getChildfriendliness() != tour1.getChildfriendliness() ? toFindTour.getChildfriendliness() : tour1.getChildfriendliness());
+            tour1.setPopularity(( toFindTour.getPopularity() == tour1.getPopularity() || (tour1.getPopularity() != 0 && toFindTour.getPopularity() == 0)) ? tour1.getPopularity() : toFindTour.getPopularity());
+            tour1.setChildfriendliness((toFindTour.getChildfriendliness() == tour1.getChildfriendliness() || (tour1.getChildfriendliness() != 0 && toFindTour.getChildfriendliness() == 0)) ? tour1.getChildfriendliness() : toFindTour.getChildfriendliness());
 
+
+            System.out.println("von updateTour: " + tour1);
             tourRepository.save(tour1);
         }
     }
@@ -81,75 +87,43 @@ public class TourServiceImpl implements TourService {
         return tourRepository.searchTour(name);
     }
 
-    public void createTourPopularity(long id, List<Log> logs) {
+    public Tour createTourPopularity(long id, List<Log> logs) {
         TourEntity tourEntity = tourRepository.findById(id).orElse(null);
         double rating = 0;
+        System.out.println("from createPopularity: " + logs);
+        System.out.println("from createPopularity: " + tourEntity);
         for (Log log : logs) {
             rating += log.getRating();
+            System.out.println("rating:     " + rating);
         }
-
         tourEntity.setPopularity(rating / logs.size());
+        System.out.println("rating / logs.size(): " + rating / logs.size());
         updateTour(tourMapper.toDto(tourEntity));
+        System.out.println("tourEntity" + tourEntity);
+
+        return tourMapper.toDto(tourEntity);
     }
-
-    public int createTourChildfriendliness(Tour tour) {
-        double time = tour.getTimeEnd().getTime() - tour.getTimeStart().getTime();
-        int timeRating = 0;
-        time = time/3600000;
-        if (time < 0.5) {
-            timeRating = 1;
-        } else if (time > 0.5 && time < 1.5) {
-            timeRating = 2;
-        } else if (time > 1.5 && time < 2.5) {
-            timeRating = 3;
-        } else if (time > 2.5 && time < 3.5) {
-            timeRating = 4;
-        }else if (time > 3.5){
-            timeRating = 5;
-        }
-
-        int distanceRating = 0;
-        if(tour.getDistance()<1.5){
-            distanceRating = 1;
-        }else if(tour.getDistance()>1.5 && tour.getDistance()<2.5){
-            distanceRating = 2;
-        }else if(tour.getDistance()>2.5 && tour.getDistance()<3.5){
-            distanceRating = 3;
-        }else if(tour.getDistance()>3.5 && tour.getDistance()<4.5){
-            distanceRating = 4;
-        } else if (tour.getDistance()>4.5) {
-            distanceRating = 5;
-        }
-
-        double avg = timeRating + distanceRating;
-
-        if (avg ==2){
-            return 5;
-        }else if (avg >2 && avg <=4){
-            return 4;
-        }else if (avg >4 && avg <=6){
-            return 3;
-        }else if (avg >6 && avg <=8){
-            return 2;
-        }else {
-            return 1;
-        }
-    }
-
 
     public void createTourChildfriendlinessWithLogs(Tour tour, List<Log> logs) {
-        double time = tour.getTimeEnd().getTime() - tour.getTimeStart().getTime();
-        time = time/3600000;
+        double timeResult = 0;
+        for (Log log : logs) {
+            double time = log.getTimeEnd().getTime() - log.getTimeStart().getTime();
+            time = time/3600000;
+            timeResult += time;
+        }
+        timeResult = timeResult / logs.size();
+//        double time = tour.getTimeEnd().getTime() - tour.getTimeStart().getTime();
+//        time = time/3600000;
         int timeRating = 0;
-        if (time < 0.5) {
+        if (timeResult < 0.5) {
             timeRating = 1;
-        } else if (time > 0.5 && time < 1.5) {
+        } else if (timeResult > 0.5 && timeResult < 1.5) {
             timeRating = 2;
-        } else if (time > 1.5 && time < 2.5) {
+        } else if (timeResult > 1.5 && timeResult < 2.5) {
             timeRating = 3;
-        } else if (time > 2.5 && time < 3.5) {
+        } else if (timeResult > 2.5 && timeResult < 3.5) {
             timeRating = 4;
-        }else if (time > 3.5){
+        }else if (timeResult > 3.5){
             timeRating = 5;
         }
 
@@ -178,20 +152,20 @@ public class TourServiceImpl implements TourService {
             System.out.println("logs.size():    " + logs.size());
             System.out.println("distanceRating:    " + distanceRating);
             System.out.println("timeRating:    " + timeRating);
-            System.out.println("time:    " + time);
+            System.out.println("time:    " + timeResult);
 
             double childfriendnessRating = 0;
             childfriendnessRating = difficultyRating + timeRating + distanceRating;
             if (childfriendnessRating <=3){
-                tour.setChildfriendliness(5);
+                tour.setChildfriendliness(5.0);
             } else if (childfriendnessRating > 3 && childfriendnessRating <= 6) {
-                tour.setChildfriendliness(4);
+                tour.setChildfriendliness(4.0);
             } else if (childfriendnessRating > 6 && childfriendnessRating <= 9) {
-                tour.setChildfriendliness(3);
+                tour.setChildfriendliness(3.0);
             }else if (childfriendnessRating > 9 && childfriendnessRating <= 12) {
-                tour.setChildfriendliness(2);
+                tour.setChildfriendliness(2.0);
             }else if (childfriendnessRating > 12) {
-                tour.setChildfriendliness(1);
+                tour.setChildfriendliness(1.0);
             }
 
             updateTour(tour);

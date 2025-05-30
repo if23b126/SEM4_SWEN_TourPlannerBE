@@ -35,7 +35,7 @@ public class LogServiceImpl implements LogService {
 
         if(tour != null){
             List<Log> allLogs = getLogsForTour(tour);
-            tourService.createTourPopularity(toAddLogs.getTourid(), allLogs);
+            tour = tourService.createTourPopularity(toAddLogs.getTourid(), allLogs);
             tourService.createTourChildfriendlinessWithLogs(tour, allLogs);
             //logRepository.save(toAddLogs);
         }
@@ -65,10 +65,11 @@ public class LogServiceImpl implements LogService {
             log.setRating(toFindLogs.getRating() < 0 ? log.getRating() : toFindLogs.getRating());
             log.setTourid(toFindLogs.getTourid() < 0 ? log.getTourid() : toFindLogs.getTourid());
 
+            logRepository.save(log);
             Tour tour = tourService.checkIfTourExists(log.getTourid());
             if(tour != null){
                 List<Log> allLogs = getLogsForTour(tour);
-                tourService.createTourPopularity(log.getTourid(), allLogs);
+                tour = tourService.createTourPopularity(log.getTourid(), allLogs);
                 tourService.createTourChildfriendlinessWithLogs(tour, allLogs);
             }
             logRepository.save(log);
@@ -86,13 +87,13 @@ public class LogServiceImpl implements LogService {
         LogEntity log = logRepository.findById(id).orElse(null);
         TourEntity tour = tourRepository.findById(log.getTourid()).orElse(null);
         List<Log> logs = getLogsForTour(tourMapper.toDto(tour));
-            System.out.println("logs:    " + logs);
+        System.out.println("logs:    " + logs);
         logs.removeIf(l -> l.getId() == log.getId());
         logRepository.deleteById(id);
-            System.out.println("logs:    " + logs);
+        System.out.println("logs:    " + logs);
         if(logs.size() > 0){
-            tourService.createTourPopularity(log.getTourid(), logs);
-            tourService.createTourChildfriendlinessWithLogs(tourMapper.toDto(tour), logs);
+            Tour newTour = tourService.createTourPopularity(log.getTourid(), logs);
+            tourService.createTourChildfriendlinessWithLogs(newTour, logs);
         }
     }
 

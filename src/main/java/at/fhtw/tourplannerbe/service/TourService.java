@@ -15,7 +15,6 @@ public interface TourService {
     List<TourEntity> getSearchTour(String name);
     Tour getTourById(long id);
     Tour checkIfTourExists(long id);
-    void createTourPopularity(long id, List<Log> logs);
+    Tour createTourPopularity(long id, List<Log> logs);
     void createTourChildfriendlinessWithLogs(Tour tour, List<Log> logs);
-    int createTourChildfriendliness(Tour tour);
 }
