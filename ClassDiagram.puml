@@ -1,0 +1,250 @@
+@startuml
+left to right direction
+class at.fhtw.tourplannerbe.persitence.LogEntity {
+- Long id
+- Date time
+- String comment
+- double difficulty
+- double distance
+- Date timeStart
+- Date timeEnd
+- double rating
+- long tourid
+}
+
+class at.fhtw.tourplannerbe.service.impl.ReportServiceImpl {
+- ExportService exportService
+- TourService tourService
+- PDFont font
++ ResponseEntity<byte[]> createTourReport(Long)
++ ResponseEntity<byte[]> createSummarizeReport()
+}
+
+
+class at.fhtw.tourplannerbe.service.mapper.TourMapper {
++ Tour toDto(TourEntity)
++ TourEntity toEntity(Tour)
+}
+
+class at.fhtw.tourplannerbe.service.impl.ImportServiceImpl {
+- TourService tourService
+- LogService logService
++ void importTour(TourImportExport)
+}
+
+
+class at.fhtw.tourplannerbe.controller.TourController {
+- TourService tourService
++ List<Tour> getAllTours()
++ void saveTour(Tour)
++ void updateTour(Tour)
++ void deleteTour(long)
++ List<TourEntity> searchTour(String)
+}
+
+
+interface at.fhtw.tourplannerbe.service.ExportService {
+~ TourImportExport exportTour(Long)
+}
+
+class at.fhtw.tourplannerbe.service.impl.ExportServiceImpl {
+- TourService tourService
+- LogService logService
++ TourImportExport exportTour(Long)
+}
+
+
+class at.fhtw.tourplannerbe.controller.ReportController {
+- ReportService reportService
++ ResponseEntity<byte[]> getTourReport(long)
++ ResponseEntity<byte[]> getSummarizeReport()
+}
+
+
+class at.fhtw.tourplannerbe.service.dtos.Map {
+- String base64EncodedImage
+}
+
+interface at.fhtw.tourplannerbe.service.TourService {
+~ List<Tour> getTours()
+~ Tour addTour(Tour)
+~ void updateTour(Tour)
+~ void deleteTour(long)
+~ List<TourEntity> getSearchTour(String)
+~ Tour getTourById(long)
+~ Tour checkIfTourExists(long)
+~ Tour createTourPopularity(long,List<Log>)
+~ void createTourChildfriendlinessWithLogs(Tour,List<Log>)
+}
+
+interface at.fhtw.tourplannerbe.service.MapService {
+~ ResponseEntity getMap(int,int,int)
+}
+
+class at.fhtw.tourplannerbe.service.dtos.Log {
+- Long id
+- Date time
+- String comment
+- double difficulty
+- double distance
+- Date timeStart
+- Date timeEnd
+- double rating
+- Long tourid
+}
+
+class at.fhtw.tourplannerbe.controller.ExportController {
+- ExportServiceImpl exportService
++ TourImportExport exportTours(Long)
+}
+
+
+class at.fhtw.tourplannerbe.controller.ImportController {
+- ImportServiceImpl importService
++ void importTour(TourImportExport)
+}
+
+
+class at.fhtw.tourplannerbe.service.impl.MapServiceImpl {
++ ResponseEntity getMap(int,int,int)
+}
+
+class at.fhtw.tourplannerbe.service.impl.LogServiceImpl {
+- LogRepository logRepository
+- LogsMapper logsMapper
+- TourRepository tourRepository
+- TourMapper tourMapper
+- TourService tourService
++ void addLogs(Log)
++ void addLogsInBulk(List<Log>)
++ void updateLogs(Log)
++ List<Log> getLogsForTour(Tour)
++ void deleteLogs(long)
++ List<Log> getSearchLogs(String)
+}
+
+
+interface at.fhtw.tourplannerbe.service.LogService {
+~ void addLogs(Log)
+~ void addLogsInBulk(List<Log>)
+~ void updateLogs(Log)
+~ void deleteLogs(long)
+~ List<Log> getLogsForTour(Tour)
+~ List<Log> getSearchLogs(String)
+}
+
+class at.fhtw.tourplannerbe.service.impl.TourServiceImpl {
+- TourRepository tourRepository
+- TourMapper tourMapper
++ List<Tour> getTours()
++ Tour addTour(Tour)
++ void updateTour(Tour)
++ Tour checkIfTourExists(long)
++ Tour getTourById(long)
++ void deleteTour(long)
++ List<TourEntity> getSearchTour(String)
++ Tour createTourPopularity(long,List<Log>)
++ void createTourChildfriendlinessWithLogs(Tour,List<Log>)
+}
+
+
+interface at.fhtw.tourplannerbe.service.ReportService {
+~ ResponseEntity<byte[]> createTourReport(Long)
+~ ResponseEntity<byte[]> createSummarizeReport()
+}
+
+class at.fhtw.tourplannerbe.controller.LogController {
+- LogService logService
++ void saveLogs(Log)
++ void updateLogs(Log)
++ void deleteLogs(long)
++ List<Log> searchLogs(String)
++ List<Log> getLogs(long)
+}
+
+
+interface at.fhtw.tourplannerbe.persitence.LogRepository {
+~ List<LogEntity> searchLogs(String)
+~ List<LogEntity> searchLogsForTour(Long)
+}
+
+interface at.fhtw.tourplannerbe.service.ImportService {
+~ void importTour(TourImportExport)
+}
+
+class at.fhtw.tourplannerbe.service.dtos.Tour {
+- Long id
+- String name
+- String description
+- String start
+- String end
+- String transportMode
+- double distance
+- Date timeStart
+- Date timeEnd
+- String information
+- Date timeCreated
+- double popularity
+- double childfriendliness
+}
+
+class at.fhtw.tourplannerbe.TourPlannerBeApplication {
++ {static} void main(String[])
+}
+
+abstract class at.fhtw.tourplannerbe.service.mapper.AbstractMapper {
++ {abstract}D toDto(E)
++ {abstract}E toEntity(D)
++ List<D> toDto(Collection<E>)
++ List<E> toEntity(Collection<D>)
+}
+
+class at.fhtw.tourplannerbe.service.mapper.LogsMapper {
++ Log toDto(LogEntity)
++ LogEntity toEntity(Log)
+}
+
+class at.fhtw.tourplannerbe.persitence.TourEntity {
+- Long id
+- String name
+- String description
+- String start
+- String end
+- String transportMode
+- double distance
+- Date timeStart
+- Date timeEnd
+- String information
+- Date timeCreated
+- double popularity
+- double childfriendliness
+}
+
+interface at.fhtw.tourplannerbe.persitence.TourRepository {
+~ List<TourEntity> searchTour(String)
+}
+
+class at.fhtw.tourplannerbe.controller.MapController {
+- MapService mapService
++ ResponseEntity getMap(int,int,int)
+}
+
+
+class at.fhtw.tourplannerbe.service.dtos.TourImportExport {
+- Tour tour
+- List<Log> logs
+}
+
+
+
+at.fhtw.tourplannerbe.service.ReportService <|.. at.fhtw.tourplannerbe.service.impl.ReportServiceImpl
+at.fhtw.tourplannerbe.service.mapper.AbstractMapper <|-- at.fhtw.tourplannerbe.service.mapper.TourMapper
+at.fhtw.tourplannerbe.service.ImportService <|.. at.fhtw.tourplannerbe.service.impl.ImportServiceImpl
+at.fhtw.tourplannerbe.service.ExportService <|.. at.fhtw.tourplannerbe.service.impl.ExportServiceImpl
+at.fhtw.tourplannerbe.service.MapService <|.. at.fhtw.tourplannerbe.service.impl.MapServiceImpl
+at.fhtw.tourplannerbe.service.LogService <|.. at.fhtw.tourplannerbe.service.impl.LogServiceImpl
+at.fhtw.tourplannerbe.service.TourService <|.. at.fhtw.tourplannerbe.service.impl.TourServiceImpl
+org.springframework.data.jpa.repository.JpaRepository <|-- at.fhtw.tourplannerbe.persitence.LogRepository
+at.fhtw.tourplannerbe.service.mapper.AbstractMapper <|-- at.fhtw.tourplannerbe.service.mapper.LogsMapper
+org.springframework.data.jpa.repository.JpaRepository <|-- at.fhtw.tourplannerbe.persitence.TourRepository
+@enduml
