@@ -33,12 +33,17 @@ public class TourController {
     }
 
     @CrossOrigin
-    @PutMapping
-    public void updateTour(@RequestBody Tour tour) {
+    @PutMapping("/{id}")
+    public void updateTour(@RequestBody Tour tour, @PathVariable long id) {
+        System.out.println(tour);
         log.info("Update tour");
+        tour.setId(id);
+        System.out.println(id);
+        System.out.println(tour);
         tourService.updateTour(tour);
     }
 
+    @CrossOrigin
     @DeleteMapping("/{id}")
     public void deleteTour(@PathVariable long id) {
         log.info("Delete tour");

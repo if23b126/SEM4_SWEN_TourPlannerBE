@@ -24,24 +24,28 @@ public class LogController {
     }
 
     @CrossOrigin
-    @PutMapping
-    public void updateLogs(@RequestBody Log log) {
+    @PutMapping("/{id}")
+    public void updateLogs(@RequestBody Log log, @PathVariable long id) {
+        log.setId(id);
         LogController.log.info("Updating logs to database");
         logService.updateLogs(log);
     }
 
+    @CrossOrigin
     @DeleteMapping("/{id}")
     public void deleteLogs(@PathVariable long id) {
         log.info("Deleting logs from database");
         logService.deleteLogs(id);
     }
 
+    @CrossOrigin
     @GetMapping("/search/{comment}")
     public List<Log> searchLogs(@PathVariable String comment) {
         log.info("Searching logs from database");
         return logService.getSearchLogs(comment);
     }
 
+    @CrossOrigin
     @GetMapping("/{tourid}")
     public List<Log> getLogs(@PathVariable long tourid) {
         log.info("Getting logs for tour from database");
