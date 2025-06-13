@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -22,7 +23,7 @@ public class ImportServiceImpl implements ImportService {
     private final LogService logService;
 
     @Override
-    public void importTour(TourImportExport tourImportExport) {
+    public void importTour(TourImportExport tourImportExport) throws IOException {
         Tour tour = tourImportExport.getTour();
         List<Log> logs = tourImportExport.getLogs();
 

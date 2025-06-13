@@ -5,6 +5,7 @@ import at.fhtw.tourplannerbe.persitence.LogRepository;
 import at.fhtw.tourplannerbe.persitence.TourEntity;
 import at.fhtw.tourplannerbe.persitence.TourRepository;
 import at.fhtw.tourplannerbe.service.LogService;
+import at.fhtw.tourplannerbe.service.MapService;
 import at.fhtw.tourplannerbe.service.TourService;
 import at.fhtw.tourplannerbe.service.dtos.Log;
 import at.fhtw.tourplannerbe.service.dtos.Tour;
@@ -15,9 +16,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.sql.Time;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
 
 @Service
 @Slf4j
@@ -26,6 +31,7 @@ public class TourServiceImpl implements TourService {
 
     private final TourRepository tourRepository;
     private final TourMapper tourMapper;
+    private final MapService mapService;
 
     @Override
     public List<Tour> getTours() {
@@ -33,7 +39,15 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
-    public Tour addTour(Tour tour) {
+    public Tour addTour(Tour tour) throws IOException {
+        String[] start =  tour.getStart().split(",");
+
+        String[] end =  tour.getEnd().split(",");
+
+        double[] durationDistance = mapService.getDistanceAndDuration(start, end, "foot-walking");
+
+        tour.setDuration(durationDistance[0]);
+        tour.setDistance(durationDistance[1]);
         TourEntity tourEntity = tourRepository.save(tourMapper.toEntity(tour));
         return tourMapper.toDto(tourEntity);
     }
@@ -53,8 +67,7 @@ public class TourServiceImpl implements TourService {
             tour1.setEnd(toFindTour.getEnd() == null ? tour1.getEnd() : toFindTour.getEnd());
             tour1.setTransportMode(toFindTour.getTransportMode() == null ? tour1.getTransportMode() : toFindTour.getTransportMode());
             tour1.setDistance(toFindTour.getDistance() < 0 ? tour1.getDistance() : toFindTour.getDistance());
-            tour1.setTimeStart(toFindTour.getTimeStart() == null ? tour1.getTimeStart() : toFindTour.getTimeStart());
-            tour1.setTimeEnd(toFindTour.getTimeEnd() == null ? tour1.getTimeEnd() : toFindTour.getTimeEnd());
+            tour1.setDuration(toFindTour.getDuration() < 0 ? tour1.getDuration() : toFindTour.getDuration());
             tour1.setInformation(toFindTour.getInformation() == null ? tour1.getInformation() : toFindTour.getInformation());
             //tour1.setPopularity(toFindTour.getPopularity() - tour1.getPopularity() != 0 ? tour1.getPopularity() : toFindTour.getPopularity());
             //tour1.setChildfriendliness(toFindTour.getChildfriendliness() <= 0 ? tour1.getChildfriendliness() : toFindTour.getChildfriendliness());

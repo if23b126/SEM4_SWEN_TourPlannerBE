@@ -36,10 +36,8 @@ public class TourEntity {
     private String transportMode;
     @Column(name = "TOUR_distance")
     private double distance;
-    @Column(name = "TOUR_timestart")
-    private Date timeStart;
-    @Column(name = "TOUR_timeend")
-    private Date timeEnd;
+    @Column(name = "TOUR_duration")
+    private double duration;
     @Column(name = "TOUR_information")
     private String information;
     @Column(name = "TOUR_timecreated")

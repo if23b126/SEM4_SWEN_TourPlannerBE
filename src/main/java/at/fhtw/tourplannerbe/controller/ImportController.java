@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("import")
 @RequiredArgsConstructor
@@ -16,7 +18,7 @@ public class ImportController {
 
     @CrossOrigin
     @PostMapping
-    public void importTour(@RequestBody TourImportExport tourImportExport) {
+    public void importTour(@RequestBody TourImportExport tourImportExport) throws IOException {
         log.info("Import Tour " + tourImportExport);
         importService.importTour(tourImportExport);
     }
