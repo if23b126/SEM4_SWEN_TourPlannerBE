@@ -38,7 +38,6 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public ResponseEntity<byte[]> createTourReport(Long id) throws IOException {
         TourImportExport tour = exportService.exportTour(id);
-        Date diff = new Date(tour.getTour().getTimeEnd().getTime() - tour.getTour().getTimeStart().getTime());
 
         float fontSize = 14;
         float headingSize = 38;
@@ -101,7 +100,7 @@ public class ReportServiceImpl implements ReportService {
         totalHeight += fontHeight;
 
         contentStream.newLine();
-        contentStream.showText("Duration: " + diff.getTime()/3600000);
+        contentStream.showText("Duration: " + tour.getTour().getDuration());
         totalHeight += fontHeight;
         totalHeight += fontHeight;
 

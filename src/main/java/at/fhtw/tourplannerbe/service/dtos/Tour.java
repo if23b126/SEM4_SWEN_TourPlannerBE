@@ -16,10 +16,7 @@ public class Tour {
     private String end;
     private String transportMode;
     private double distance;
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:SS")
-    private Date timeStart;
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:SS")
-    private Date timeEnd;
+    private double duration;
     private String information;
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:SS")
     private Date timeCreated;
