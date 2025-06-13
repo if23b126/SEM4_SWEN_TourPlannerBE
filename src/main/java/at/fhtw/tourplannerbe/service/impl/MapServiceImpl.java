@@ -103,7 +103,7 @@ public class MapServiceImpl implements MapService {
             double[] distances = Arrays.stream(jsonObject.get("distances").toString().replace("[", "").replace("]", "").split(",")).mapToDouble(Double::parseDouble).toArray();
             durationDistance[1] = distances[1];
         } catch(JSONException err) {
-            log.info(err.toString());
+            log.error(err.toString());
         }
 
         return durationDistance;
