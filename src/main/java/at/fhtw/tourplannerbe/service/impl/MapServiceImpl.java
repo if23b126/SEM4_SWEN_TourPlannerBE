@@ -1,7 +1,8 @@
 package at.fhtw.tourplannerbe.service.impl;
 
 import at.fhtw.tourplannerbe.service.MapService;
-import at.fhtw.tourplannerbe.service.dtos.Map;
+import at.fhtw.tourplannerbe.service.dtos.Coordinate;
+import at.fhtw.tourplannerbe.service.dtos.OsmMap;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
@@ -11,18 +12,11 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.*;
-import java.net.http.HttpClient;
 import java.nio.charset.StandardCharsets;
-import java.sql.Blob;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -107,5 +101,67 @@ public class MapServiceImpl implements MapService {
         }
 
         return durationDistance;
+    }
+
+    @Override
+    public List<Coordinate> getRoute(List<Coordinate> coordinates, String transportMode) throws IOException {
+        StringBuilder result = new StringBuilder();
+        List<Coordinate> coordinatesList = new ArrayList<>();
+        String orsUrl = "https://api.openrouteservice.org/v2/directions/" + transportMode + "?";
+
+
+        Map<String, String> parameters = new HashMap<>();
+
+        parameters.put("start", coordinates.get(0).getLon() + "," + coordinates.get(0).getLat());
+        parameters.put("end", coordinates.get(1).getLon() + "," + coordinates.get(1).getLat());
+
+        orsUrl += getParamsString(parameters);
+
+        URL url = new URL(orsUrl);
+        HttpURLConnection http = (HttpURLConnection) url.openConnection();
+        http.setRequestMethod("GET");
+        http.setRequestProperty("Authorization", "5b3ce3597851110001cf6248af50fb7a487f4f6ba9996cf902bccb98");
+        BufferedReader in = new BufferedReader(new InputStreamReader(http.getInputStream()));
+        String line;
+        while ((line = in.readLine()) != null) {
+            result.append(line);
+        }
+
+        http.disconnect();
+
+        try {
+            JSONObject jsonObject = new JSONObject(result.toString());
+            JSONObject features = new JSONObject(jsonObject.get("features").toString().substring(1, jsonObject.get("features").toString().length() - 1));
+            String coordinateString = features.getJSONObject("geometry").get("coordinates").toString();
+            List<String> coordinateList = Arrays.stream(coordinateString.split("\\],\\[")).toList();
+            for (String coordinate : coordinateList) {
+                coordinate = coordinate.replace("[", "").replace("]", "");
+                coordinatesList.add(Coordinate.builder()
+                        .lat(coordinate.split(",")[1])
+                        .lon(coordinate.split(",")[0])
+                        .build());
+            }
+        } catch (JSONException err) {
+            log.error(err.toString());
+        }
+
+        return coordinatesList;
+    }
+
+    public static String getParamsString(Map<String, String> params)
+            throws UnsupportedEncodingException{
+        StringBuilder result = new StringBuilder();
+
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            result.append(entry.getKey());
+            result.append("=");
+            result.append(entry.getValue());
+            result.append("&");
+        }
+
+        String resultString = result.toString();
+        return resultString.length() > 0
+                ? resultString.substring(0, resultString.length() - 1)
+                : resultString;
     }
 }
