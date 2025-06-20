@@ -44,7 +44,7 @@ public class TourServiceImpl implements TourService {
 
         String[] end =  tour.getEnd().split(",");
 
-        double[] durationDistance = mapService.getDistanceAndDuration(start, end, "foot-walking");
+        double[] durationDistance = mapService.getDistanceAndDuration(start, end, tour.getTransportMode());
 
         tour.setDuration(durationDistance[0]);
         tour.setDistance(durationDistance[1]);
