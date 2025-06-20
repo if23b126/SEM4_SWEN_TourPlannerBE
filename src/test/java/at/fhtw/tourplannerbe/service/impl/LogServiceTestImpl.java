@@ -310,12 +310,7 @@ public class LogServiceTestImpl {
 
     @Test
     @Sql(scripts = "/logsTest.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    public void updateChildfriendlinessTest() throws ParseException{
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
-        String timeStartString = "2025-05-22 08:35:00.0";
-        Date timeStart = formatter.parse(timeStartString);
-        String timeEndString = "2025-05-22 9:00:00.0";
-        Date timeEnd = formatter.parse(timeEndString);
+    public void updateChildfriendlinessTest(){
 
         Tour tour = tourService.getTourById(1L);
         assertEquals(0, tour.getPopularity());
@@ -323,8 +318,7 @@ public class LogServiceTestImpl {
 
         Tour updateTour = Tour.builder()
                 .id(1L)
-                .timeStart(timeStart)
-                .timeEnd(timeEnd)
+                .duration(2)
                 .build();
         tourService.updateTour(updateTour);
 
@@ -344,12 +338,7 @@ public class LogServiceTestImpl {
 
     @Test
     @Sql(scripts = "/logsTest.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    public void updateChildfriendlinessPopulatityTest() throws ParseException{
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
-        String timeStartString = "2025-05-22 08:35:00.0";
-        Date timeStart = formatter.parse(timeStartString);
-        String timeEndString = "2025-05-22 9:00:00.0";
-        Date timeEnd = formatter.parse(timeEndString);
+    public void updateChildfriendlinessPopulatityTest(){
 
         Tour tour = tourService.getTourById(1L);
         assertEquals(0, tour.getPopularity());
@@ -357,8 +346,7 @@ public class LogServiceTestImpl {
 
         Tour updateTour = Tour.builder()
                 .id(1L)
-                .timeStart(timeStart)
-                .timeEnd(timeEnd)
+                .duration(2)
                 .build();
         tourService.updateTour(updateTour);
 

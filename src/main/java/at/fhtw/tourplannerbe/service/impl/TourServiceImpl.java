@@ -41,7 +41,7 @@ public class TourServiceImpl implements TourService {
     @Override
     public Tour addTour(Tour tour) throws IOException {
 
-        if(tour.getId() == 0){
+        if(tour.getId() != null && tour.getId() == 0){
             tour.setId(null);
         }
         String[] start =  tour.getStart().split(",");

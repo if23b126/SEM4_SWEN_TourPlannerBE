@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class ImportServiceTest {
 
     @Test
     @Sql(scripts = "/importTest.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    public void importTest() throws ParseException {
+    public void importTest() throws ParseException, IOException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
         String timeStartString = "2025-05-22 08:35:00.00";
@@ -42,12 +43,11 @@ public class ImportServiceTest {
         Tour tour = Tour.builder()
                 .name("new_tour")
                 .description("new_description")
-                .start("start")
-                .end("end")
-                .transportMode("transport_mode")
+                .start("16.37038797323949,48.2010386430652")
+                .end("16.37367838085627,48.23761334405697")
+                .transportMode("foot-walking")
                 .distance(3)
-                .timeStart(date)
-                .timeEnd(dateEnd)
+                .duration(2)
                 .information("information")
                 .build();
 
@@ -78,8 +78,7 @@ public class ImportServiceTest {
         assertEquals(tour.getEnd(), tourInDB.getEnd());
         assertEquals(tour.getTransportMode(), tourInDB.getTransportMode());
         assertEquals(tour.getDistance(), tourInDB.getDistance());
-        assertEquals(tour.getTimeStart(), tourInDB.getTimeStart());
-        assertEquals(tour.getTimeEnd(), tourInDB.getTimeEnd());
+        assertEquals(tour.getDuration(), tourInDB.getDuration());
         assertEquals(tour.getInformation(), tourInDB.getInformation());
 
         assertEquals(logs.size(), logsInDB.size());

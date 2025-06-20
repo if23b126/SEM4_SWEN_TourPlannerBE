@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 
 import javax.xml.crypto.Data;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -33,39 +34,28 @@ public class TourServiceTestImpl {
     public void getToursTest() {
         List<Tour> tours = tourService.getTours();
         TourEntity tourEntity = tourMapper.toEntity(tours.get(0));
-        assertEquals(tourEntity.getName(), "test");
-        assertEquals(tourEntity.getDescription(), "test");
-        assertEquals(tourEntity.getStart(), "test");
-        assertEquals(tourEntity.getEnd(), "test");
-        assertEquals(tourEntity.getTransportMode(), "test");
-        assertEquals(tourEntity.getDistance(), 3);
-        assertEquals(tourEntity.getTimeStart().toString(), "2025-05-22 08:35:00.0");
-        assertEquals(tourEntity.getTimeEnd().toString(), "2025-05-22 10:35:00.0");
-        assertEquals(tourEntity.getInformation(), "test");
-        assertEquals(tourEntity.getPopularity(), 0);
-        assertEquals(tourEntity.getChildfriendliness(), 0);
+        assertEquals("test", tourEntity.getName());
+        assertEquals("test", tourEntity.getDescription());
+        assertEquals("test", tourEntity.getStart());
+        assertEquals("test", tourEntity.getEnd());
+        assertEquals("test", tourEntity.getTransportMode());
+        assertEquals(3, tourEntity.getDistance());
+        assertEquals(2, tourEntity.getDuration());
+        assertEquals("test", tourEntity.getInformation());
+        assertEquals(0, tourEntity.getPopularity());
+        assertEquals(0, tourEntity.getChildfriendliness());
     }
 
     @Test
     @Sql(scripts = "/saveTourTest.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    public void saveTourTest() throws ParseException {
-        String timeStart = "2025-05-22 08:35:00.00";
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
-        Date date = formatter.parse(timeStart);
-
-        String timeEnd = "2025-05-22 10:35:00.00";
-        SimpleDateFormat formatterEnd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
-        Date dateEnd = formatterEnd.parse(timeEnd);
+    public void saveTourTest() throws IOException {
 
         Tour tour = Tour.builder()
                 .name("new_tour")
                 .description("new_description")
-                .start("start")
-                .end("end")
-                .transportMode("transport_mode")
-                .distance(3)
-                .timeStart(date)
-                .timeEnd(dateEnd)
+                .start("16.37038797323949,48.2010386430652")
+                .end("16.37367838085627,48.23761334405697")
+                .transportMode("foot-walking")
                 .information("information")
                 .build();
 
@@ -74,40 +64,29 @@ public class TourServiceTestImpl {
         List<Tour> tours = tourService.getTours();
         TourEntity tourEntity = tourMapper.toEntity(tours.get(0));
 
-        assertEquals(tourEntity.getName(), "new_tour");
-        assertEquals(tourEntity.getDescription(), "new_description");
-        assertEquals(tourEntity.getStart(), "start");
-        assertEquals(tourEntity.getEnd(), "end");
-        assertEquals(tourEntity.getTransportMode(), "transport_mode");
-        assertEquals(tourEntity.getDistance(), 3);
-        assertEquals(tourEntity.getTimeStart().toString(), "2025-05-22 08:35:00.0");
-        assertEquals(tourEntity.getTimeEnd().toString(), "2025-05-22 10:35:00.0");
-        assertEquals(tourEntity.getInformation(), "information");
-        assertEquals(tourEntity.getPopularity(), 0);
-        assertEquals(tourEntity.getChildfriendliness(), 0);
+        assertEquals("new_tour", tourEntity.getName());
+        assertEquals("new_description", tourEntity.getDescription());
+        assertEquals("16.37038797323949,48.2010386430652", tourEntity.getStart());
+        assertEquals("16.37367838085627,48.23761334405697", tourEntity.getEnd());
+        assertEquals("foot-walking", tourEntity.getTransportMode());
+        assertEquals(5036.75, tourEntity.getDistance());
+        assertEquals(3626.38, tourEntity.getDuration());
+        assertEquals("information", tourEntity.getInformation());
+        assertEquals(0, tourEntity.getPopularity());
+        assertEquals(0, tourEntity.getChildfriendliness());
     }
 
 
     @Test
     @Sql(scripts = "/tourTest.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    public void saveSecondTourTest() throws ParseException {
-        String timeStart = "2025-05-22 08:35:00.00";
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
-        Date date = formatter.parse(timeStart);
-
-        String timeEnd = "2025-05-22 10:35:00.00";
-        SimpleDateFormat formatterEnd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
-        Date dateEnd = formatterEnd.parse(timeEnd);
+    public void saveSecondTourTest() throws ParseException, IOException {
 
         Tour tour = Tour.builder()
                 .name("new_tour")
                 .description("new_description")
-                .start("start")
-                .end("end")
-                .transportMode("transport_mode")
-                .distance(3)
-                .timeStart(date)
-                .timeEnd(dateEnd)
+                .start("16.37038797323949,48.2010386430652")
+                .end("16.37367838085627,48.23761334405697")
+                .transportMode("foot-walking")
                 .information("information")
                 .build();
 
@@ -117,35 +96,33 @@ public class TourServiceTestImpl {
         tours.forEach(System.out::println);
         TourEntity tourEntity = tourMapper.toEntity(tours.get(0));
 
-        assertEquals(tours.size(), 2);
+        assertEquals(2, tours.size());
 
 
-        assertEquals(tourEntity.getName(), "test");
-        assertEquals(tourEntity.getDescription(), "test");
-        assertEquals(tourEntity.getStart(), "test");
-        assertEquals(tourEntity.getEnd(), "test");
-        assertEquals(tourEntity.getTransportMode(), "test");
-        assertEquals(tourEntity.getDistance(), 3);
-        assertEquals(tourEntity.getTimeStart().toString(), "2025-05-22 08:35:00.0");
-        assertEquals(tourEntity.getTimeEnd().toString(), "2025-05-22 10:35:00.0");
-        assertEquals(tourEntity.getInformation(), "test");
-        assertEquals(tourEntity.getPopularity(), 0);
-        assertEquals(tourEntity.getChildfriendliness(), 0);
+        assertEquals("test", tourEntity.getName());
+        assertEquals("test", tourEntity.getDescription());
+        assertEquals("test", tourEntity.getStart());
+        assertEquals("test", tourEntity.getEnd());
+        assertEquals("test", tourEntity.getTransportMode());
+        assertEquals(3, tourEntity.getDistance());
+        assertEquals(2, tourEntity.getDuration());
+        assertEquals("test", tourEntity.getInformation());
+        assertEquals(0, tourEntity.getPopularity());
+        assertEquals(0, tourEntity.getChildfriendliness());
 
 
         TourEntity secondTour = tourMapper.toEntity(tours.get(1));
 
-        assertEquals(secondTour.getName(), "new_tour");
-        assertEquals(secondTour.getDescription(), "new_description");
-        assertEquals(secondTour.getStart(), "start");
-        assertEquals(secondTour.getEnd(), "end");
-        assertEquals(secondTour.getTransportMode(), "transport_mode");
-        assertEquals(secondTour.getDistance(), 3);
-        assertEquals(secondTour.getTimeStart().toString(), "2025-05-22 08:35:00.0");
-        assertEquals(secondTour.getTimeEnd().toString(), "2025-05-22 10:35:00.0");
-        assertEquals(secondTour.getInformation(), "information");
-        assertEquals(secondTour.getPopularity(), 0);
-        assertEquals(secondTour.getChildfriendliness(), 0);
+        assertEquals("new_tour", secondTour.getName());
+        assertEquals("new_description", secondTour.getDescription());
+        assertEquals("16.37038797323949,48.2010386430652", secondTour.getStart());
+        assertEquals("16.37367838085627,48.23761334405697", secondTour.getEnd());
+        assertEquals("foot-walking", secondTour.getTransportMode());
+        assertEquals(5036.75, secondTour.getDistance());
+        assertEquals(3626.38, secondTour.getDuration());
+        assertEquals("information", secondTour.getInformation());
+        assertEquals(0, secondTour.getPopularity());
+        assertEquals(0, secondTour.getChildfriendliness());
     }
 
     @Test
@@ -167,25 +144,23 @@ public class TourServiceTestImpl {
         tourEntity.setEnd("end");
         tourEntity.setTransportMode("transport_mode");
         tourEntity.setDistance(13);
-        tourEntity.setTimeStart(date);
-        tourEntity.setTimeEnd(dateEnd);
+        tourEntity.setDuration(3);
         tourEntity.setInformation("information");
 
         tourService.updateTour(tourMapper.toDto(tourEntity));
 
         tours = tourService.getTours();
         tourEntity = tourMapper.toEntity(tours.get(0));
-        assertEquals(tourEntity.getName(), "new_name");
-        assertEquals(tourEntity.getDescription(), "new_description");
-        assertEquals(tourEntity.getStart(), "start");
-        assertEquals(tourEntity.getEnd(), "end");
-        assertEquals(tourEntity.getTransportMode(), "transport_mode");
-        assertEquals(tourEntity.getDistance(), 13);
-        assertEquals(tourEntity.getTimeStart().toString(), "2025-05-22 18:35:00.0");
-        assertEquals(tourEntity.getTimeEnd().toString(), "2025-05-22 20:35:00.0");
-        assertEquals(tourEntity.getInformation(), "information");
-        assertEquals(tourEntity.getPopularity(), 0);
-        assertEquals(tourEntity.getChildfriendliness(), 0);
+        assertEquals("new_name", tourEntity.getName());
+        assertEquals("new_description", tourEntity.getDescription());
+        assertEquals("start", tourEntity.getStart());
+        assertEquals("end", tourEntity.getEnd());
+        assertEquals("transport_mode", tourEntity.getTransportMode());
+        assertEquals(13, tourEntity.getDistance());
+        assertEquals(3, tourEntity.getDuration());
+        assertEquals("information", tourEntity.getInformation());
+        assertEquals(0, tourEntity.getPopularity());
+        assertEquals(0, tourEntity.getChildfriendliness());
 
     }
 
@@ -197,17 +172,16 @@ public class TourServiceTestImpl {
         tourService.updateTour(tourMapper.toDto(tourEntity));
         tours = tourService.getTours();
         tourEntity = tourMapper.toEntity(tours.get(0));
-        assertEquals(tourEntity.getName(), "test");
-        assertEquals(tourEntity.getDescription(), "test");
-        assertEquals(tourEntity.getStart(), "test");
-        assertEquals(tourEntity.getEnd(), "test");
-        assertEquals(tourEntity.getTransportMode(), "test");
-        assertEquals(tourEntity.getDistance(), 3);
-        assertEquals(tourEntity.getTimeStart().toString(), "2025-05-22 08:35:00.0");
-        assertEquals(tourEntity.getTimeEnd().toString(), "2025-05-22 10:35:00.0");
-        assertEquals(tourEntity.getInformation(), "test");
-        assertEquals(tourEntity.getPopularity(), 0);
-        assertEquals(tourEntity.getChildfriendliness(), 0);
+        assertEquals("test", tourEntity.getName());
+        assertEquals("test", tourEntity.getDescription());
+        assertEquals("test", tourEntity.getStart());
+        assertEquals("test", tourEntity.getEnd());
+        assertEquals("test", tourEntity.getTransportMode());
+        assertEquals(3, tourEntity.getDistance());
+        assertEquals(2, tourEntity.getDuration());
+        assertEquals("test", tourEntity.getInformation());
+        assertEquals(0, tourEntity.getPopularity());
+        assertEquals(0, tourEntity.getChildfriendliness());
     }
 
     @Test
@@ -222,17 +196,16 @@ public class TourServiceTestImpl {
         tourService.updateTour(tourMapper.toDto(tourEntity));
         tours = tourService.getTours();
         tourEntity = tourMapper.toEntity(tours.get(0));
-        assertEquals(tourEntity.getName(), "new_name");
-        assertEquals(tourEntity.getDescription(), "new_description");
-        assertEquals(tourEntity.getStart(), "start");
-        assertEquals(tourEntity.getEnd(), "test");
-        assertEquals(tourEntity.getTransportMode(), "test");
-        assertEquals(tourEntity.getDistance(), 3);
-        assertEquals(tourEntity.getTimeStart().toString(), "2025-05-22 08:35:00.0");
-        assertEquals(tourEntity.getTimeEnd().toString(), "2025-05-22 10:35:00.0");
-        assertEquals(tourEntity.getInformation(), "test");
-        assertEquals(tourEntity.getPopularity(), 0);
-        assertEquals(tourEntity.getChildfriendliness(), 0);
+        assertEquals("new_name", tourEntity.getName());
+        assertEquals("new_description", tourEntity.getDescription());
+        assertEquals("start", tourEntity.getStart());
+        assertEquals("test", tourEntity.getEnd());
+        assertEquals("test", tourEntity.getTransportMode());
+        assertEquals(3, tourEntity.getDistance());
+        assertEquals(2, tourEntity.getDuration());
+        assertEquals("test", tourEntity.getInformation());
+        assertEquals(0, tourEntity.getPopularity());
+        assertEquals(0, tourEntity.getChildfriendliness());
     }
 
     @Test
@@ -247,25 +220,23 @@ public class TourServiceTestImpl {
         tourEntity.setEnd(null);
         tourEntity.setTransportMode(null);
         tourEntity.setDistance(13);
-        tourEntity.setTimeStart(null);
-        tourEntity.setTimeEnd(null);
+        tourEntity.setDuration(2);
         tourEntity.setInformation(null);
 
         tourService.updateTour(tourMapper.toDto(tourEntity));
 
         tours = tourService.getTours();
         tourEntity = tourMapper.toEntity(tours.get(0));
-        assertEquals(tourEntity.getName(), "new_name");
-        assertEquals(tourEntity.getDescription(), "test");
-        assertEquals(tourEntity.getStart(), "test");
-        assertEquals(tourEntity.getEnd(), "test");
-        assertEquals(tourEntity.getTransportMode(), "test");
-        assertEquals(tourEntity.getDistance(), 13);
-        assertEquals(tourEntity.getTimeStart().toString(), "2025-05-22 08:35:00.0");
-        assertEquals(tourEntity.getTimeEnd().toString(), "2025-05-22 10:35:00.0");
-        assertEquals(tourEntity.getInformation(), "test");
-        assertEquals(tourEntity.getPopularity(), 0);
-        assertEquals(tourEntity.getChildfriendliness(), 0);
+        assertEquals("new_name", tourEntity.getName());
+        assertEquals("test", tourEntity.getDescription());
+        assertEquals("test", tourEntity.getStart());
+        assertEquals("test", tourEntity.getEnd());
+        assertEquals("test", tourEntity.getTransportMode());
+        assertEquals(13, tourEntity.getDistance());
+        assertEquals(2, tourEntity.getDuration());
+        assertEquals("test", tourEntity.getInformation());
+        assertEquals(0, tourEntity.getPopularity());
+        assertEquals(0, tourEntity.getChildfriendliness());
     }
 
     @Test
@@ -273,15 +244,15 @@ public class TourServiceTestImpl {
     public void deleteTourTest() {
         List<Tour> tours = tourService.getTours();
         TourEntity tourEntity = tourMapper.toEntity(tours.get(0));
-        assertEquals(tours.size(), 1);
+        assertEquals(1, tours.size());
         tourService.deleteTour(tourEntity.getId());
         tours = tourService.getTours();
-        assertEquals(tours.size(), 0);
+        assertEquals(0, tours.size());
     }
 
     @Test
     @Sql(scripts = "/saveTourTest.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    public void addDeleteFirstTourTest() throws ParseException{
+    public void addDeleteFirstTourTest() throws ParseException, IOException {
         String timeStart = "2025-05-22 08:35:00.00";
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
         Date date = formatter.parse(timeStart);
@@ -293,12 +264,11 @@ public class TourServiceTestImpl {
         Tour tour = Tour.builder()
                 .name("new_tour")
                 .description("new_description")
-                .start("start")
-                .end("end")
-                .transportMode("transport_mode")
+                .start("16.37038797323949,48.2010386430652")
+                .end("16.37367838085627,48.23761334405697")
+                .transportMode("foot-walking")
                 .distance(3)
-                .timeStart(date)
-                .timeEnd(dateEnd)
+                .duration(2)
                 .information("information")
                 .build();
 
@@ -306,23 +276,22 @@ public class TourServiceTestImpl {
 
         List<Tour> tours = tourService.getTours();
         TourEntity secondTour = tourMapper.toEntity(tours.get(0));
-        assertEquals(secondTour.getName(), "new_tour");
-        assertEquals(secondTour.getDescription(), "new_description");
-        assertEquals(secondTour.getStart(), "start");
-        assertEquals(secondTour.getEnd(), "end");
-        assertEquals(secondTour.getTransportMode(), "transport_mode");
-        assertEquals(secondTour.getDistance(), 3);
-        assertEquals(secondTour.getTimeStart().toString(), "2025-05-22 08:35:00.0");
-        assertEquals(secondTour.getTimeEnd().toString(), "2025-05-22 10:35:00.0");
-        assertEquals(secondTour.getInformation(), "information");
-        assertEquals(secondTour.getPopularity(), 0);
-        assertEquals(secondTour.getChildfriendliness(), 0);
+        assertEquals("new_tour", secondTour.getName());
+        assertEquals("new_description", secondTour.getDescription());
+        assertEquals("16.37038797323949,48.2010386430652", secondTour.getStart());
+        assertEquals("16.37367838085627,48.23761334405697", secondTour.getEnd());
+        assertEquals("foot-walking", secondTour.getTransportMode());
+        assertEquals(5036.75, secondTour.getDistance());
+        assertEquals(3626.38, secondTour.getDuration());
+        assertEquals("information", secondTour.getInformation());
+        assertEquals(0, secondTour.getPopularity());
+        assertEquals(0, secondTour.getChildfriendliness());
 
-        assertEquals(tours.size(), 1);
+        assertEquals(1, tours.size());
 
         tourService.deleteTour(secondTour.getId());
         tours = tourService.getTours();
-        assertEquals(tours.size(), 0);
+        assertEquals(0, tours.size());
     }
 
     @Test

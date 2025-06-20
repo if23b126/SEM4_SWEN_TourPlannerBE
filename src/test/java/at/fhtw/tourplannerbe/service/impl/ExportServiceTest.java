@@ -30,8 +30,7 @@ public class ExportServiceTest {
         assertEquals("test", tour.getEnd());
         assertEquals("test", tour.getTransportMode());
         assertEquals(3, tour.getDistance());
-        assertEquals("2025-05-22 08:35:00.0", tour.getTimeStart().toString());
-        assertEquals("2025-05-22 10:35:00.0", tour.getTimeEnd().toString());
+        assertEquals(2, tour.getDuration());
         assertEquals("test", tour.getInformation());
 
         assertEquals("test", log.getComment());
