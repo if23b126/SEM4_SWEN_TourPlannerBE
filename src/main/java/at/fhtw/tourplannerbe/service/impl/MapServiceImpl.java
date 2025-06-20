@@ -67,6 +67,7 @@ public class MapServiceImpl implements MapService {
         json = json.replace("{{lonEnd}}",  String.valueOf(coordEnd[0]));
         json = json.replace("{{latEnd}}",  String.valueOf(coordEnd[1]));
 
+
         URL url = new URL(urlString);
         URLConnection con = url.openConnection();
         HttpURLConnection http = (HttpURLConnection)con;

@@ -29,6 +29,7 @@ public class LogServiceImpl implements LogService {
 
     @Override
     public void addLogs(Log log){
+        System.out.println("added log" + log);
         LogEntity toAddLogs = logsMapper.toEntity(log);
         Tour tour = tourService.checkIfTourExists(toAddLogs.getTourid());
         logRepository.save(toAddLogs);

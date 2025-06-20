@@ -40,6 +40,9 @@ public class TourServiceImpl implements TourService {
 
     @Override
     public Tour addTour(Tour tour) throws IOException {
+        if(tour.getId() == 0){
+            tour.setId(null);
+        }
         String[] start =  tour.getStart().split(",");
 
         String[] end =  tour.getEnd().split(",");
@@ -54,6 +57,7 @@ public class TourServiceImpl implements TourService {
 
     @Override
     public void updateTour(Tour tour) {
+
         TourEntity toFindTour = tourMapper.toEntity(tour);
         System.out.println("von toFindTour am anfang: " + toFindTour);
         TourEntity tour1 = tourRepository.findById(toFindTour.getId()).orElse(null);
