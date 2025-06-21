@@ -30,7 +30,7 @@ public class LogServiceImpl implements LogService {
     @Override
     public void addLogs(Log log){
 
-        if(log.getId() == 0){
+        if(log.getId() != null &&log.getId() == 0){
             log.setId(null);
         }
         System.out.println("added log" + log);
