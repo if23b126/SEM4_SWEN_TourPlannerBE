@@ -51,9 +51,17 @@ public class TourController {
         tourService.deleteTour(id);
     }
 
+    @CrossOrigin
     @GetMapping("/search/{name}")
     public List<TourEntity> searchTour(@PathVariable String name) {
         log.info("Searching tour from database");
         return tourService.getSearchTour(name);
+    }
+
+    @CrossOrigin
+    @GetMapping("/findTour/{id}")
+    public Tour getOneTour(@PathVariable long id) {
+        log.info("Searching tour from database");
+        return tourService.getOneTour(id);
     }
 }

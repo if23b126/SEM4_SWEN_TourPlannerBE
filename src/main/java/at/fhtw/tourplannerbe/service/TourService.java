@@ -18,4 +18,5 @@ public interface TourService {
     Tour checkIfTourExists(long id);
     Tour createTourPopularity(long id, List<Log> logs);
     void createTourChildfriendlinessWithLogs(Tour tour, List<Log> logs);
+    Tour getOneTour(long id);
 }
