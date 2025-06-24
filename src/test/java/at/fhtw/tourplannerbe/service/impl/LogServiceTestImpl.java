@@ -231,8 +231,7 @@ public class LogServiceTestImpl {
         logService.updateLogs(log);
 
         List<Log> logs = logService.getLogsForTour(Tour.builder().id(1L).build());
-        System.out.println(logs);
-        System.out.println(logs.size());
+
         assertEquals(1, logs.size());
         assertEquals(1L, logs.get(0).getId());
         assertEquals("test", logs.get(0).getComment());
@@ -245,7 +244,6 @@ public class LogServiceTestImpl {
         assertEquals(1, logs.get(0).getTourid());
 
         Tour tourNew = tourService.getTourById(1L);;
-        System.out.println(tourNew.getPopularity());
         assertEquals(2, tourNew.getPopularity());
         assertEquals(3, tourNew.getChildfriendliness());
     }
@@ -362,5 +360,41 @@ public class LogServiceTestImpl {
         tour = tourService.getTourById(1L);
         assertEquals(5, tour.getPopularity());
         assertEquals(4, tour.getChildfriendliness());
+    }
+
+    @Test
+    @Sql(scripts = "/logsTest.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    public void updatePopularityTest() throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+        String timeString = "2025-05-22 12:35:00.0";
+        Date time = formatter.parse(timeString);
+        String timeStartString = "2025-05-22 08:35:00.0";
+        Date timeStart = formatter.parse(timeStartString);
+        String timeEndString = "2025-05-22 10:35:00.0";
+        Date timeEnd = formatter.parse(timeEndString);
+
+        Tour tour = tourService.getTourById(1L);
+        assertEquals(0, tour.getPopularity());
+        assertEquals(0, tour.getChildfriendliness());
+
+        Tour updateTour = Tour.builder()
+                .id(1L)
+                .duration(2)
+                .build();
+        tourService.updateTour(updateTour);
+
+        for (int i = 2; i < 7; i++) {
+            Log log = Log.builder()
+                    .time(time)
+                    .timeStart(timeStart)
+                    .timeEnd(timeEnd)
+                    .rating(5)
+                    .tourid(1L)
+                    .build();
+            logService.addLogs(log);
+        }
+        tour = tourService.getTourById(1L);
+        assertEquals((double) 28/6, tour.getPopularity());
+
     }
 }

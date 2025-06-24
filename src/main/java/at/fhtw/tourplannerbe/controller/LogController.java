@@ -46,9 +46,9 @@ public class LogController {
     }
 
     @CrossOrigin
-    @GetMapping("/{tourid}")
-    public List<Log> getLogs(@PathVariable long tourid) {
+    @GetMapping("/{tourId}")
+    public List<Log> getLogs(@PathVariable long tourId) {
         log.info("Getting logs for tour from database");
-        return logService.getLogsForTour(Tour.builder().id(tourid).build());
+        return logService.getLogsForTour(Tour.builder().id(tourId).build());
     }
 }

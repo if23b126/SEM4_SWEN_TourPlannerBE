@@ -93,7 +93,6 @@ public class TourServiceTestImpl {
         tourService.addTour(tour);
 
         List<Tour> tours = tourService.getTours();
-        tours.forEach(System.out::println);
         TourEntity tourEntity = tourMapper.toEntity(tours.get(0));
 
         assertEquals(2, tours.size());
