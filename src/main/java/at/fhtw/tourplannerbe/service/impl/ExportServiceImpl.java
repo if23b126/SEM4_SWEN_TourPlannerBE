@@ -25,6 +25,9 @@ public class ExportServiceImpl implements ExportService {
         Tour tour = tourService.getTourById(id);
         List<Log> logs = logService.getLogsForTour(tour);
 
+        tour.setId(null);
+        logs.forEach(log -> {log.setId(null); log.setTourid(null);});
+
         return TourImportExport.builder()
                 .tour(tour)
                 .logs(logs)

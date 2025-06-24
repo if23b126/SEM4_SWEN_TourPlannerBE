@@ -32,6 +32,7 @@ public class TourServiceImpl implements TourService {
     private final TourRepository tourRepository;
     private final TourMapper tourMapper;
     private final MapService mapService;
+    private final LogRepository logRepository;
 
     @Override
     public List<Tour> getTours() {
@@ -52,6 +53,7 @@ public class TourServiceImpl implements TourService {
 
         tour.setDuration(durationDistance[0]);
         tour.setDistance(durationDistance[1]);
+        tour.setTimeCreated(new Date());
         TourEntity tourEntity = tourRepository.save(tourMapper.toEntity(tour));
         return tourMapper.toDto(tourEntity);
     }
@@ -99,6 +101,8 @@ public class TourServiceImpl implements TourService {
 
     public void deleteTour(long id) {
         tourRepository.deleteById(id);
+        List<LogEntity> logs = logRepository.searchLogsForTour(id);
+        logRepository.deleteAll(logs);
     }
 
     public List<TourEntity> getSearchTour(String name){
