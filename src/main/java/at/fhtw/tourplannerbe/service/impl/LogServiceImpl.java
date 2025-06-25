@@ -30,10 +30,12 @@ public class LogServiceImpl implements LogService {
     @Override
     public void addLogs(Log log){
 
-        if(log.getId() != null &&log.getId() == 0){
-            log.setId(null);
-        }
         LogEntity toAddLogs = logsMapper.toEntity(log);
+
+        if(toAddLogs.getId() != null && toAddLogs.getId() == 0){
+            toAddLogs.setId(null);
+        }
+
         Tour tour = tourService.checkIfTourExists(toAddLogs.getTourid());
         logRepository.save(toAddLogs);
 
