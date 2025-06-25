@@ -102,4 +102,9 @@ public class LogServiceImpl implements LogService {
     public List<Log> getSearchLogs(String comment){
        return logsMapper.toDto(logRepository.searchLogs(comment));
     }
+
+    public Log getLogById(long id){
+        Log log = logsMapper.toDto(logRepository.findById(id).orElse(null));
+        return log;
+    }
 }

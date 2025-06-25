@@ -40,6 +40,12 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
+    public Tour getOneTour(long id) {
+        TourEntity entity = tourRepository.findById(id).orElseThrow(() -> new RuntimeException("Tour not found"));
+        return tourMapper.toDto(entity);
+    }
+
+    @Override
     public Tour addTour(Tour tour) throws IOException {
 
         if(tour.getId() != null && tour.getId() == 0){
