@@ -48,6 +48,26 @@ public class LogServiceTestImpl {
         assertEquals(0, tour.getChildfriendliness());
     }
 
+
+    @Test
+    @Sql(scripts = "/logsTest.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    public void getOneLog() {
+        Tour tour = Tour.builder().id(1L).build();
+        Log log = logService.getLogById(1);
+
+        assertEquals(1L, log.getId());
+        assertEquals("test", log.getComment());
+        assertEquals(1, log.getDifficulty());
+        assertEquals(2, log.getDistance());
+        assertEquals(3, log.getRating());
+        assertEquals("2025-05-22 12:35:00.0", log.getTime().toString());
+        assertEquals("2025-05-22 08:35:00.0", log.getTimeStart().toString());
+        assertEquals("2025-05-22 10:35:00.0", log.getTimeEnd().toString());
+        assertEquals(1, log.getTourid());
+        assertEquals(0, tour.getPopularity());
+        assertEquals(0, tour.getChildfriendliness());
+    }
+
     @Test
     @Sql(scripts = "/logsTest.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void addLogTest() throws ParseException {

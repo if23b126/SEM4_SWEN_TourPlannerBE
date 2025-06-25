@@ -46,6 +46,27 @@ public class TourServiceTestImpl {
         assertEquals(0, tourEntity.getChildfriendliness());
     }
 
+
+    @Test
+    @Sql(scripts = "/tourTest.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    public void getOneTour() {
+        Tour tour = tourService.getOneTour(1L);
+        TourEntity tourEntity = tourMapper.toEntity(tour);
+        assertEquals("test", tourEntity.getName());
+        assertEquals("test", tourEntity.getDescription());
+        assertEquals("test", tourEntity.getStart());
+        assertEquals("test", tourEntity.getEnd());
+        assertEquals("test", tourEntity.getTransportMode());
+        assertEquals(3, tourEntity.getDistance());
+        assertEquals(2, tourEntity.getDuration());
+        assertEquals("test", tourEntity.getInformation());
+        assertEquals(0, tourEntity.getPopularity());
+        assertEquals(0, tourEntity.getChildfriendliness());
+    }
+
+
+
+
     @Test
     @Sql(scripts = "/saveTourTest.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void saveTourTest() throws IOException {
