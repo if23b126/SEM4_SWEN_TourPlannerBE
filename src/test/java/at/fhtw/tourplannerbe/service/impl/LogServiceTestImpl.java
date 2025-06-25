@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,6 +26,7 @@ public class LogServiceTestImpl {
     @Autowired
     private TourService tourService;
 
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Test
     @Sql(scripts = "/logsTest.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
@@ -396,5 +398,75 @@ public class LogServiceTestImpl {
         tour = tourService.getTourById(1L);
         assertEquals((double) 28/6, tour.getPopularity());
 
+    }
+
+    @Test
+    @Sql(scripts = "/logsTestWithMoreLogs.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    public void getLogsForTour() {
+        List<Log> logs = logService.getLogsForTour(Tour.builder().id(1L).build());
+
+        assertEquals(1, logs.size());
+        assertEquals(1L, logs.get(0).getId());
+        assertEquals("test", logs.get(0).getComment());
+        assertEquals(1, logs.get(0).getDifficulty());
+        assertEquals(2, logs.get(0).getDistance());
+        assertEquals(3, logs.get(0).getRating());
+        assertEquals("2025-05-22 12:35:00.0", logs.get(0).getTime().toString());
+        assertEquals("2025-05-22 08:35:00.0", logs.get(0).getTimeStart().toString());
+        assertEquals("2025-05-22 10:35:00.0", logs.get(0).getTimeEnd().toString());
+        assertEquals(1L, logs.get(0).getTourid());
+    }
+
+    @Test
+    @Sql(scripts = "/importTest.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    public void addLogsInBulkTest() throws ParseException, IOException {
+        Tour tour = Tour.builder()
+                .name("new_tour")
+                .description("new_description")
+                .start("16.37038797323949,48.2010386430652")
+                .end("16.37367838085627,48.23761334405697")
+                .transportMode("foot-walking")
+                .information("information")
+                .build();
+
+        Tour addedTour = tourService.addTour(tour);
+
+        List<Log> logs = List.of(Log.builder()
+                        .comment("Comment 1")
+                        .difficulty(1)
+                        .distance(1)
+                        .rating(1)
+                        .time(sdf.parse("2025-06-25 10:00:00"))
+                        .timeStart(sdf.parse("2025-06-25 8:00:00"))
+                        .timeEnd(sdf.parse("2025-06-25 09:00:00"))
+                        .tourid(addedTour.getId())
+                        .build(),
+                Log.builder()
+                        .comment("Comment 2")
+                        .difficulty(1)
+                        .distance(1)
+                        .rating(1)
+                        .time(sdf.parse("2025-06-25 10:00:00"))
+                        .timeStart(sdf.parse("2025-06-25 8:00:00"))
+                        .timeEnd(sdf.parse("2025-06-25 09:00:00"))
+                        .tourid(addedTour.getId())
+                        .build());
+
+        logService.addLogsInBulk(logs);
+
+        List<Log> newLogs = logService.getLogsForTour(addedTour);
+
+        assertEquals(2, newLogs.size());
+        for(int i = 0; i < newLogs.size(); i++) {
+            assertEquals((long) i+1, newLogs.get(i).getId());
+            assertEquals(logs.get(i).getComment(), newLogs.get(i).getComment());
+            assertEquals(logs.get(i).getDifficulty(), newLogs.get(i).getDifficulty());
+            assertEquals(logs.get(i).getDistance(), newLogs.get(i).getDistance());
+            assertEquals(logs.get(i).getRating(), newLogs.get(i).getRating());
+            assertEquals(logs.get(i).getTime(), newLogs.get(i).getTime());
+            assertEquals(logs.get(i).getTimeStart(), newLogs.get(i).getTimeStart());
+            assertEquals(logs.get(i).getTimeEnd(), newLogs.get(i).getTimeEnd());
+            assertEquals(logs.get(i).getTourid(), newLogs.get(i).getTourid());
+        }
     }
 }

@@ -150,7 +150,7 @@ public class MapServiceImpl implements MapService {
     }
 
     @Override
-    public String getParamsString(Map<String, String> params) throws UnsupportedEncodingException{
+    public String getParamsString(Map<String, String> params){
         StringBuilder result = new StringBuilder();
 
         for (Map.Entry<String, String> entry : params.entrySet()) {
