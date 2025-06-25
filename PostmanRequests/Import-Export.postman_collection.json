@@ -1,0 +1,62 @@
+{
+	"info": {
+		"_postman_id": "02dafee2-fc2c-4518-8f1b-bc4c43c9b3dd",
+		"name": "Import/Export",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36219118",
+		"_collection_link": "https://swen11.postman.co/workspace/SWEN-Workspace~fe8b838d-fcbb-4093-ab9b-639a1e82d0c5/collection/33633708-02dafee2-fc2c-4518-8f1b-bc4c43c9b3dd?action=share&source=collection_link&creator=36219118"
+	},
+	"item": [
+		{
+			"name": "Export Tour",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/export/52",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"export",
+						"52"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Import Tour",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"tour\": {\n        \"name\": \"avg test\",\n        \"description\": \"tesLt\",\n        \"start\": \"test\",\n        \"end\": \"test\",\n        \"transportMode\": \"test\",\n        \"distance\": 2.0,\n        \"timeStart\": \"2025-05-16 08:30:00\",\n        \"timeEnd\": \"2025-05-16 10:30:00\",\n        \"information\": \"test\"\n    },\n    \"logs\": [\n        {\n            \"time\": \"2025-05-16 08:30:00\",\n            \"comment\": \"another one\",\n            \"difficulty\": 3.0,\n            \"distance\": 2.0,\n            \"timeStart\": \"2025-05-16 08:30:00\",\n            \"timeEnd\": \"2025-05-16 10:30:00\",\n            \"rating\": 3.0\n        },\n        {\n            \"time\": \"2025-05-16 08:30:00\",\n            \"comment\": \"another one\",\n            \"difficulty\": 1.0,\n            \"distance\": 2.0,\n            \"timeStart\": \"2025-05-16 08:30:00\",\n            \"timeEnd\": \"2025-05-16 10:30:00\",\n            \"rating\": 4.0\n        },\n        {\n            \"time\": \"2025-05-16 08:30:00\",\n            \"comment\": \"another one\",\n            \"difficulty\": 2.0,\n            \"distance\": 1.5,\n            \"timeStart\": \"2025-05-16 08:30:00\",\n            \"timeEnd\": \"2025-05-16 10:30:00\",\n            \"rating\": 3.0\n        },\n        {\n            \"time\": \"2025-05-16 08:30:00\",\n            \"comment\": \"another one\",\n            \"difficulty\": 2.0,\n            \"distance\": 3.0,\n            \"timeStart\": \"2025-05-16 08:30:00\",\n            \"timeEnd\": \"2025-05-16 10:30:00\",\n            \"rating\": 4.0\n        },\n        {\n            \"time\": \"2025-05-16 08:30:00\",\n            \"comment\": \"another one\",\n            \"difficulty\": 4.0,\n            \"distance\": 2.0,\n            \"timeStart\": \"2025-05-16 08:30:00\",\n            \"timeEnd\": \"2025-05-16 10:30:00\",\n            \"rating\": 3.0\n        },\n        {\n            \"time\": \"2025-05-16 08:30:00\",\n            \"comment\": \"another one\",\n            \"difficulty\": 5.0,\n            \"distance\": 4.0,\n            \"timeStart\": \"2025-05-16 08:30:00\",\n            \"timeEnd\": \"2025-05-16 10:30:00\",\n            \"rating\": 4.0\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/import",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"import"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,175 @@
+{
+	"info": {
+		"_postman_id": "3ff5663c-6f7f-41c1-8676-96e36bf19313",
+		"name": "Logs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36219118",
+		"_collection_link": "https://swen11.postman.co/workspace/SWEN-Workspace~fe8b838d-fcbb-4093-ab9b-639a1e82d0c5/collection/36219118-3ff5663c-6f7f-41c1-8676-96e36bf19313?action=share&source=collection_link&creator=36219118"
+	},
+	"item": [
+		{
+			"name": "Create Log",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 99999,\n    \"time\": \"2025-05-16 8:30:00\",\n    \"comment\": \"test\",\n    \"difficulty\": 1,\n    \"distance\": 2,\n    \"timeStart\": \"2025-05-16 8:30:00\",\n    \"timeEnd\": \"2025-05-16 10:30:00\",\n    \"rating\": 4,\n    \"tourid\":1\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/logs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"logs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update log",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1,\n    \"time\": \"2025-05-16 8:30:00\",\n    \"comment\": \"hat das funktioniert?\",\n    \"difficulty\": 1,\n    \"distance\": 2,\n    \"timeStart\": \"2025-05-16 8:30:00\",\n    \"timeEnd\": \"2025-05-16 10:30:00\",\n    \"rating\": 4,\n    \"tourid\":1\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/logs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"logs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete log",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/logs/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"logs",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search log",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"comment\": \"hat das funktioniert?\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/logs/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"logs",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Logs For Tour",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/logs/52",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"logs",
+						"52"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getOneLog",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/logs/findOneLog/55",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"logs",
+						"findOneLog",
+						"55"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,160 @@
+{
+	"info": {
+		"_postman_id": "60da50fa-18ab-46cb-81d0-9bf05b60ea75",
+		"name": "Tour",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36219118",
+		"_collection_link": "https://swen11.postman.co/workspace/SWEN-Workspace~fe8b838d-fcbb-4093-ab9b-639a1e82d0c5/collection/33633708-60da50fa-18ab-46cb-81d0-9bf05b60ea75?action=share&source=collection_link&creator=36219118"
+	},
+	"item": [
+		{
+			"name": "Get All Tours",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/tour",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"tour"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Tour",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"ll\",\n    \"description\": \"test\",\n    \"start\": \"16.371003671606847,48.23481831706721\",\n    \"end\": \"16.377440738459704,48.23918018750874\",\n    \"transportMode\": \"test\",\n    \"distance\": 2,\n    \"timeStart\": \"2025-05-16 8:30:00\",\n    \"timeEnd\": \"2025-05-16 10:30:00\",\n    \"information\": \"test\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/tour",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"tour"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update Tour",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 302,\n    \"name\": \" was ist das jetzt\",\n    \"description\": \"test\",\n    \"start\": \"test\",\n    \"end\": \"test\",\n    \"distance\": 2,\n    \"timeStart\": \"2025-05-16 8:30:00\",\n    \"timeEnd\": \"2025-05-16 10:30:00\",\n    \"information\": \"test\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/tour",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"tour"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete tour",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/tour/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"tour",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/tour/search/te",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"tour",
+						"search",
+						"te"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getOneTour",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/tour/findTour/1751",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"tour",
+						"findTour",
+						"1751"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,69 @@
+{
+	"info": {
+		"_postman_id": "fdb63178-c54e-4cfe-b223-95898d0c0e72",
+		"name": "OpenStreetMap",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36219118",
+		"_collection_link": "https://swen11.postman.co/workspace/SWEN-Workspace~fe8b838d-fcbb-4093-ab9b-639a1e82d0c5/collection/33633708-fdb63178-c54e-4cfe-b223-95898d0c0e72?action=share&source=collection_link&creator=36219118"
+	},
+	"item": [
+		{
+			"name": "GetTile OSM",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"user-agent": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "User-Agent",
+						"value": "Postman (if23b126@technikum-wien.at)",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://tile.openstreetmap.org/18/142993/90868.png",
+					"protocol": "https",
+					"host": [
+						"tile",
+						"openstreetmap",
+						"org"
+					],
+					"path": [
+						"18",
+						"142993",
+						"90868.png"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCardBE",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/osm/18/142993/90868",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"osm",
+						"18",
+						"142993",
+						"90868"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

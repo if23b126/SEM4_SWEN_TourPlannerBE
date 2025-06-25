@@ -1,0 +1,136 @@
+{
+	"info": {
+		"_postman_id": "8cfe6de9-708b-41a4-899b-2ad043739c5d",
+		"name": "OpenRouteService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36219118",
+		"_collection_link": "https://swen11.postman.co/workspace/SWEN-Workspace~fe8b838d-fcbb-4093-ab9b-639a1e82d0c5/collection/33633708-8cfe6de9-708b-41a4-899b-2ad043739c5d?action=share&source=collection_link&creator=36219118"
+	},
+	"item": [
+		{
+			"name": "Get Matrix Foot-Walking",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "5b3ce3597851110001cf6248af50fb7a487f4f6ba9996cf902bccb98",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"locations\": [\n        [\n            16.371003671606847,48.23481831706721\n        ],\n        [\n            16.377440738459704,48.23918018750874\n        ]\n    ],\n    \"metrics\": [\n        \"distance\",\n        \"duration\"\n    ],\n    \"resolve_locations\": \"false\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.openrouteservice.org/v2/matrix/foot-walking",
+					"protocol": "https",
+					"host": [
+						"api",
+						"openrouteservice",
+						"org"
+					],
+					"path": [
+						"v2",
+						"matrix",
+						"foot-walking"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ORS Get Directions",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "5b3ce3597851110001cf6248af50fb7a487f4f6ba9996cf902bccb98",
+						"type": "text"
+					},
+					{
+						"key": "start",
+						"value": "16.37038797323949,48.2010386430652",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "end",
+						"value": "16.37367838085627,48.23761334405697",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "https://api.openrouteservice.org/v2/directions/foot-walking?start=16.37038797323949,48.2010386430652&end=16.37367838085627,48.23761334405697",
+					"protocol": "https",
+					"host": [
+						"api",
+						"openrouteservice",
+						"org"
+					],
+					"path": [
+						"v2",
+						"directions",
+						"foot-walking"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "16.37038797323949,48.2010386430652"
+						},
+						{
+							"key": "end",
+							"value": "16.37367838085627,48.23761334405697"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetRouteBE",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"lat\": \"48.2010386430652\",\n        \"lon\": \"16.37038797323949\"\n    }, \n    {\n        \"lat\": \"48.23761334405697\",\n        \"lon\": \"16.37367838085627\"\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/osm/foot-walking",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"osm",
+						"foot-walking"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
