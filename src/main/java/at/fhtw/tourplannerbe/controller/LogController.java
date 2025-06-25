@@ -51,4 +51,11 @@ public class LogController {
         log.info("Getting logs for tour from database");
         return logService.getLogsForTour(Tour.builder().id(tourId).build());
     }
+
+    @CrossOrigin
+    @GetMapping("/findOneLog/{id}")
+    public Log getOneLog(@PathVariable long id) {
+        log.info("Getting log from database");
+        return logService.getLogById(id);
+    }
 }

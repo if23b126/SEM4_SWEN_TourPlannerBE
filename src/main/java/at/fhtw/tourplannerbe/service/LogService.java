@@ -13,4 +13,5 @@ public interface LogService {
     void deleteLogs(long id);
     List<Log> getLogsForTour(Tour tour);
     List<Log> getSearchLogs(String comment);
+    Log getLogById(long id);
 }

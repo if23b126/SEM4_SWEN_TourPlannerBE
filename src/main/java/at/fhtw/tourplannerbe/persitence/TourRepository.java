@@ -17,5 +17,7 @@ public interface TourRepository extends JpaRepository<TourEntity, Long> {
             "tour_transportmode ILIKE CONCAT('%', :name, '%') OR " +
             "CAST(tour_duration AS TEXT) ILIKE CONCAT('%', :name, '%')",
             nativeQuery = true)
+
+
     List<TourEntity> searchTour(@Param("name") String name);
 }
