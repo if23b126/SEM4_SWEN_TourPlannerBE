@@ -1,0 +1,489 @@
+openapi: "3.1.0"
+info:
+  title: "SEM4_SWEN_TourPlannerBE API"
+  description: "SEM4_SWEN_TourPlannerBE API"
+  version: "1.0.0"
+servers:
+  - url: "https://SEM4_SWEN_TourPlannerBE"
+paths:
+  /tour:
+    get:
+      summary: "GET tour"
+      operationId: "getAllTours"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Tour"
+    post:
+      summary: "POST tour"
+      operationId: "saveTour"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Tour"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+  /tour/findTour/{id}:
+    get:
+      summary: "GET tour/findTour/{id}"
+      operationId: "getOneTour"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Tour"
+  /tour/search/{name}:
+    get:
+      summary: "GET tour/search/{name}"
+      operationId: "searchTour"
+      parameters:
+        - name: "name"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/TourEntity"
+  /tour/{id}:
+    put:
+      summary: "PUT tour/{id}"
+      operationId: "updateTour"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Tour"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+    delete:
+      summary: "DELETE tour/{id}"
+      operationId: "deleteTour"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+  /export/{id}:
+    get:
+      summary: "GET export/{id}"
+      operationId: "exportTours"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/TourImportExport"
+  /import:
+    post:
+      summary: "POST import"
+      operationId: "importTour"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TourImportExport"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+  /report/summary:
+    get:
+      summary: "GET report/summary"
+      operationId: "getSummarizeReport"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  type: "string"
+                  format: "byte"
+  /report/tour/{id}:
+    get:
+      summary: "GET report/tour/{id}"
+      operationId: "getTourReport"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  type: "string"
+                  format: "byte"
+  /logs:
+    post:
+      summary: "POST logs"
+      operationId: "saveLogs"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Log"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+  /logs/findOneLog/{id}:
+    get:
+      summary: "GET logs/findOneLog/{id}"
+      operationId: "getOneLog"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Log"
+  /logs/search/{comment}:
+    get:
+      summary: "GET logs/search/{comment}"
+      operationId: "searchLogs"
+      parameters:
+        - name: "comment"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Log"
+  /logs/{id}:
+    put:
+      summary: "PUT logs/{id}"
+      operationId: "updateLogs"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Log"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+    delete:
+      summary: "DELETE logs/{id}"
+      operationId: "deleteLogs"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+  /logs/{tourId}:
+    get:
+      summary: "GET logs/{tourId}"
+      operationId: "getLogs"
+      parameters:
+        - name: "tourId"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Log"
+  /osm/{transportMode}:
+    post:
+      summary: "POST osm/{transportMode}"
+      operationId: "getRoute"
+      parameters:
+        - name: "transportMode"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "array"
+              items:
+                $ref: "#/components/schemas/Coordinate"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Coordinate"
+  /osm/{zoom}/{x}/{y}:
+    get:
+      summary: "GET osm/{zoom}/{x}/{y}"
+      operationId: "getMap"
+      parameters:
+        - name: "zoom"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int32"
+        - name: "x"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int32"
+        - name: "y"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int32"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ResponseEntity"
+components:
+  schemas:
+    Tour:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+          nullable: true
+        name:
+          type: "string"
+          nullable: true
+        description:
+          type: "string"
+          nullable: true
+        start:
+          type: "string"
+          nullable: true
+        end:
+          type: "string"
+          nullable: true
+        transportMode:
+          type: "string"
+          nullable: true
+        distance:
+          type: "number"
+          format: "double"
+          nullable: true
+        duration:
+          type: "number"
+          format: "double"
+          nullable: true
+        information:
+          type: "string"
+          nullable: true
+        timeCreated:
+          type: "string"
+          format: "date-time"
+          nullable: true
+        popularity:
+          type: "number"
+          format: "double"
+          nullable: true
+        childfriendliness:
+          type: "number"
+          format: "double"
+          nullable: true
+    TourEntity:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+          nullable: true
+        name:
+          type: "string"
+          nullable: true
+        description:
+          type: "string"
+          nullable: true
+        start:
+          type: "string"
+          nullable: true
+        end:
+          type: "string"
+          nullable: true
+        transportMode:
+          type: "string"
+          nullable: true
+        distance:
+          type: "number"
+          format: "double"
+          nullable: true
+        duration:
+          type: "number"
+          format: "double"
+          nullable: true
+        information:
+          type: "string"
+          nullable: true
+        timeCreated:
+          type: "string"
+          format: "date-time"
+          nullable: true
+        popularity:
+          type: "number"
+          format: "double"
+          nullable: true
+        childfriendliness:
+          type: "number"
+          format: "double"
+          nullable: true
+    Log:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+          nullable: true
+        time:
+          type: "string"
+          format: "date-time"
+          nullable: true
+        comment:
+          type: "string"
+          nullable: true
+        difficulty:
+          type: "number"
+          format: "double"
+          nullable: true
+        distance:
+          type: "number"
+          format: "double"
+          nullable: true
+        timeStart:
+          type: "string"
+          format: "date-time"
+          nullable: true
+        timeEnd:
+          type: "string"
+          format: "date-time"
+          nullable: true
+        rating:
+          type: "number"
+          format: "double"
+          nullable: true
+        tourid:
+          type: "integer"
+          format: "int64"
+          nullable: true
+    TourImportExport:
+      type: "object"
+      properties:
+        tour:
+          nullable: true
+          $ref: "#/components/schemas/Tour"
+        logs:
+          type: "array"
+          nullable: true
+          items:
+            $ref: "#/components/schemas/Log"
+    Coordinate:
+      type: "object"
+      properties:
+        lat:
+          type: "string"
+          nullable: true
+        lon:
+          type: "string"
+          nullable: true
+    HttpHeaders:
+      type: "object"
+      properties: { }
+    ResponseEntity:
+      type: "object"
+      properties:
+        headers:
+          $ref: "#/components/schemas/HttpHeaders"
+      required:
+        - "headers"
