@@ -16,6 +16,7 @@ import java.util.Date;
 @Table(name = "logs", schema = "public")
 public class LogEntity {
     @Id
+    @Column(name="id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "log_seq")
     @SequenceGenerator(name = "log_seq", sequenceName = "log_seq", allocationSize = 1)
     //@GeneratedValue(strategy = GenerationType.AUTO)

@@ -19,4 +19,17 @@ CREATE TABLE public.tour (
                              CONSTRAINT tour_pkey PRIMARY KEY (id)
 );
 
+CREATE TABLE public.logs (
+                             id int8 NOT NULL,
+                             logs_comment varchar(255) NULL,
+                             logs_difficulty float8 NULL,
+                             logs_distance float8 NULL,
+                             logs_rating float8 NULL,
+                             logs_time timestamp(6) NULL,
+                             logs_timeend timestamp(6) NULL,
+                             logs_timestart timestamp(6) NULL,
+                             logs_tourid int8 NULL,
+                             CONSTRAINT logs_pkey PRIMARY KEY (id)
+);
+
 INSERT INTO public.tour ( id, tour_name, tour_description, tour_start, tour_end, tour_transportmode, tour_distance, tour_duration, tour_information) VALUES ( 1, 'test','test','test','test','test',3,2,'test');

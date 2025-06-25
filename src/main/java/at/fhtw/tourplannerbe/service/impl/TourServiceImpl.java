@@ -32,6 +32,7 @@ public class TourServiceImpl implements TourService {
     private final TourRepository tourRepository;
     private final TourMapper tourMapper;
     private final MapService mapService;
+    private final LogRepository logRepository;
 
     @Override
     public List<Tour> getTours() {
@@ -58,6 +59,7 @@ public class TourServiceImpl implements TourService {
 
         tour.setDuration(durationDistance[0]);
         tour.setDistance(durationDistance[1]);
+        tour.setTimeCreated(new Date());
         TourEntity tourEntity = tourRepository.save(tourMapper.toEntity(tour));
         return tourMapper.toDto(tourEntity);
     }
@@ -66,9 +68,7 @@ public class TourServiceImpl implements TourService {
     public void updateTour(Tour tour) {
 
         TourEntity toFindTour = tourMapper.toEntity(tour);
-        System.out.println("von toFindTour am anfang: " + toFindTour);
         TourEntity tour1 = tourRepository.findById(toFindTour.getId()).orElse(null);
-        System.out.println("von tour1 am anfang: " + tour1);
 
         if (tour1 != null) {
             tour1.setId(toFindTour.getId() == null ? tour1.getId() : toFindTour.getId());
@@ -87,7 +87,6 @@ public class TourServiceImpl implements TourService {
             tour1.setChildfriendliness((toFindTour.getChildfriendliness() == tour1.getChildfriendliness() || (tour1.getChildfriendliness() != 0 && toFindTour.getChildfriendliness() == 0)) ? tour1.getChildfriendliness() : toFindTour.getChildfriendliness());
 
 
-            System.out.println("von updateTour: " + tour1);
             tourRepository.save(tour1);
         }
     }
@@ -105,6 +104,8 @@ public class TourServiceImpl implements TourService {
 
     public void deleteTour(long id) {
         tourRepository.deleteById(id);
+        List<LogEntity> logs = logRepository.searchLogsForTour(id);
+        logRepository.deleteAll(logs);
     }
 
     public List<TourEntity> getSearchTour(String name){
@@ -114,16 +115,11 @@ public class TourServiceImpl implements TourService {
     public Tour createTourPopularity(long id, List<Log> logs) {
         TourEntity tourEntity = tourRepository.findById(id).orElse(null);
         double rating = 0;
-        System.out.println("from createPopularity: " + logs);
-        System.out.println("from createPopularity: " + tourEntity);
         for (Log log : logs) {
             rating += log.getRating();
-            System.out.println("rating:     " + rating);
         }
         tourEntity.setPopularity(rating / logs.size());
-        System.out.println("rating / logs.size(): " + rating / logs.size());
         updateTour(tourMapper.toDto(tourEntity));
-        System.out.println("tourEntity" + tourEntity);
 
         return tourMapper.toDto(tourEntity);
     }
@@ -171,12 +167,7 @@ public class TourServiceImpl implements TourService {
             }
 
 
-            System.out.println("difficultyRating:    " + difficultyRating);
             difficultyRating = difficultyRating / logs.size();
-            System.out.println("logs.size():    " + logs.size());
-            System.out.println("distanceRating:    " + distanceRating);
-            System.out.println("timeRating:    " + timeRating);
-            System.out.println("time:    " + timeResult);
 
             double childfriendnessRating = 0;
             childfriendnessRating = difficultyRating + timeRating + distanceRating;

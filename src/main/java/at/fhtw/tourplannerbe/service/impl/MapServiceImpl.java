@@ -149,8 +149,8 @@ public class MapServiceImpl implements MapService {
         return coordinatesList;
     }
 
-    public static String getParamsString(Map<String, String> params)
-            throws UnsupportedEncodingException{
+    @Override
+    public String getParamsString(Map<String, String> params) throws UnsupportedEncodingException{
         StringBuilder result = new StringBuilder();
 
         for (Map.Entry<String, String> entry : params.entrySet()) {

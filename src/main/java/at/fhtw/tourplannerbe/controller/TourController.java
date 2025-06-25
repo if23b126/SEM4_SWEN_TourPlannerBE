@@ -39,8 +39,6 @@ public class TourController {
         System.out.println(tour);
         log.info("Update tour");
         tour.setId(id);
-        System.out.println(id);
-        System.out.println(tour);
         tourService.updateTour(tour);
     }
 
